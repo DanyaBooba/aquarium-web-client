@@ -1,0 +1,25 @@
+.profile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 60px;
+    width: min(600px, 100vw);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid;
+    backdrop-filter: blur(20px);
+    z-index: 1100;
+}
+
+.profile-nav button {
+    flex-direction: column;
+    line-height: 16px;
+}
+
+@media(min-width: 1101px) {
+    .app__bottom-nav {
+        display: none !important;
+    }
+}

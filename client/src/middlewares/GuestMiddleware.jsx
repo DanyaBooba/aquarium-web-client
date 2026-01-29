@@ -1,0 +1,17 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function GuestOnly({ children }) {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (accessToken) {
+            navigate('/profile');
+        }
+    }, [navigate]);
+
+    return children;
+}
+
+export default GuestOnly

@@ -1,0 +1,5 @@
+@media(min-width: 1101px) {
+    .profile__header {
+        display: none !important;
+    }
+}

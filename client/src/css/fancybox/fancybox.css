@@ -1,0 +1,3 @@
+.f-carousel__toolbar__column button.f-button[title="Toggle slideshow"] {
+    display: none !important;
+}

@@ -1,0 +1,32 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+div[id="root"] {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+button,
+.buttonTransform {
+    text-transform: none !important;
+}
+
+p {
+    line-height: 150%;
+}
+
+h1,
+h2 {
+    margin-bottom: 1rem !important;
+}
+
+.MuiDrawer-content {
+    max-height: fit-content;
+    padding-bottom: 1rem;
+}

@@ -1,0 +1,23 @@
+.app-desktop {
+    width: 250px !important;
+    flex-shrink: 0;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.app-desktop__right-auth {
+    padding-top: 16px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.app-desktop__container {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+@media (max-width: 1100px) {
+    .app-desktop {
+        display: none !important;
+    }
+}

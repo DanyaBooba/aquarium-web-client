@@ -1,0 +1,16 @@
+export default [
+    'https://mini.aquarium.org.ru/img/avatar/MAN1.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN2.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN3.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN4.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN5.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN6.png',
+    'https://mini.aquarium.org.ru/img/avatar/MAN7.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN1.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN2.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN3.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN4.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN5.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN6.png',
+    'https://mini.aquarium.org.ru/img/avatar/WOMAN7.png',
+];
