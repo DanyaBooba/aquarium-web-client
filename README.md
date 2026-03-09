@@ -20,9 +20,7 @@
 
 ---
 
-<div align="center">
-  <video src="https://aquarium.org.ru/img/pr/video-1.mp4" muted autoplay>
-</div>
+![demo](https://aquarium.org.ru/img/pr/video-2.gif)
 
 </div>
 
