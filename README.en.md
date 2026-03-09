@@ -20,9 +20,7 @@ English | [Русский](README.md)
 
 ---
 
-<div align="center">
-  <video src="https://aquarium.org.ru/img/pr/video-1.mp4" muted autoplay>
-</div>
+![demo](https://aquarium.org.ru/img/pr/video-2.gif)
 
 </div>
 
@@ -337,8 +335,8 @@ GPL-3.0 — free to use and modify. Derivative projects must remain open source 
 
 **Daniil Dybka**
 
-- [Аквариум](https://aquarium.org.ru/show/dybka)
-- [Телеграм](https://ddybka.t.me)
+- [Aquarium](https://aquarium.org.ru/show/dybka)
+- [Telegram](https://ddybka.t.me)
 - daniil@dybka.ru
 
 ---
