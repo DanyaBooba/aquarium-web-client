@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/joy";
 
 export default function ServerError({
-    img = "server-error",
+    img = "server-error.svg",
     title = "Ошибка сервера",
     desc = "Не удалось получить ответ от сервера, попробуйте позже",
     showButton = false,
@@ -29,7 +29,7 @@ export default function ServerError({
 
     return (
         <Box sx={boxSx}>
-            <img src={`/img/illustrations/${img}.svg`} alt={title} />
+            <img src={`/img/illustrations/${img}`} alt={title} />
             <Typography level="title-lg">
                 {title}
             </Typography>
@@ -46,7 +46,8 @@ export default function ServerError({
                         px: 3,
                         py: 1,
                         mx: 'auto',
-                        fontSize: '16px'
+                        fontSize: '16px',
+                        textDecoration: 'none !important'
                     }}
                 >
                     {button?.name}
@@ -57,7 +58,7 @@ export default function ServerError({
 }
 
 export function NotFound({
-    img = "not-found",
+    img = "not-found.svg",
     title = "Записи не найдены",
     desc = "",
     buttonShow = false,

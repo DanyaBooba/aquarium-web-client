@@ -3,7 +3,7 @@ import { Sheet, Typography } from "@mui/joy";
 export default function WelcomeBlock() {
     return (
         <Sheet variant="plain" sx={{
-            borderRadius: '12px',
+            borderRadius: '24px',
             p: 2,
             my: 2,
             display: 'flex',

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCsrfToken } from '../utils/getCsrfToken'
+import { checkAuth } from '../utils/authCheck'
 import { useSocket } from '../components/app/SocketProvider';
 
 function MaybeProfileMiddleware({ children }) {
@@ -8,50 +8,36 @@ function MaybeProfileMiddleware({ children }) {
     const [checked, setChecked] = useState(false);
     const [userId, setUserId] = useState(0);
 
-    const accessToken = localStorage.getItem('accessToken');
-
     useEffect(() => {
-        const validateTokens = async () => {
+        const validate = async () => {
+            const accessToken = localStorage.getItem('accessToken');
+
+            if (!accessToken) {
+                setChecked(true);
+                return;
+            }
 
             try {
-                const csrf = await getCsrfToken();
-                const response = await fetch('https://mini.aquarium.org.ru/api/auth/check', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'X-CSRF-Token': csrf,
-                    },
-                });
-
-                const data = await response.json();
+                const data = await checkAuth();
 
                 if (data?.status === 'valid' || data?.status === 'unvalid') {
                     setUserId(data?.userId);
                 }
-
-                if (data.status === "unvalid" && data.accessToken) {
-                    localStorage.setItem('accessToken', data.accessToken);
-                }
-
-                if (data.status === "deleted") {
-                    localStorage.removeItem('accessToken');
-                }
-            } catch (error) {
-
+            } catch {
+                // публичные страницы доступны без авторизации
             } finally {
                 setChecked(true);
             }
         }
 
-        validateTokens();
+        validate();
     }, [])
 
     useEffect(() => {
-        if (checked && userId) {
+        if (checked && userId && socket) {
             socket.emit('join_room', userId);
         }
-    }, [checked]);
+    }, [checked, userId, socket]);
 
     if (!checked) return null;
 

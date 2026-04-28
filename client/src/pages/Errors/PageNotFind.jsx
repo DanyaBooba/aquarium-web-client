@@ -4,7 +4,7 @@ import { Container, Typography, Link } from '@mui/joy'
 function PageNotFind() {
     return (
         <AppClear title="Страница не найдена" desc="Запрашиваемая страница не найдена">
-            <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start', height: '100vh' }}>
+            <Container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'start', height: '100dvh' }}>
                 <div>
                     <Typography level="h1" sx={{ fontFamily: 'monospace' }}>
                         404

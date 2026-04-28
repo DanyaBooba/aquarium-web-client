@@ -1,146 +1,90 @@
-import { useState, useRef, useEffect } from 'react'
-import { Input } from '@mui/joy'
+import { useEffect, useState, useRef } from 'react'
+import { OTPInput } from 'input-otp'
 
 function CodeInput({ callback, setError, reset, loading, error }) {
-    const [code, setCode] = useState('');
-
-    const inputRefs = [
-        useRef(null),
-        useRef(null),
-        useRef(null),
-        useRef(null),
-        useRef(null),
-        useRef(null),
-    ];
-
-    const resetCode = () => {
-        inputRefs.forEach(ref => {
-            const inputEl = ref.current?.querySelector('input');
-            if (inputEl) inputEl.value = '';
-        });
-        const firstInput = inputRefs[0]?.current?.querySelector('input');
-        firstInput?.focus();
-        setCode('');
-    };
+    const [value, setValue] = useState('')
+    const otpRef = useRef(null)
 
     useEffect(() => {
-        if (code.length === 6) {
-            if (typeof callback === 'function') callback(code);
+        if (reset) {
+            setTimeout(() => {
+                setValue('')
+                // Фокус на первом инпуте после сброса
+                setTimeout(() => {
+                    const firstInput = otpRef.current?.querySelector('input')
+                    firstInput?.focus()
+                }, 50)
+            }, 800)
         }
-    }, [code]); //eslint-disable-line
+    }, [reset])
 
-    useEffect(() => {
-        resetCode();
-    }, [reset]); //eslint-disable-line
-
-    function handleInput(e, index) {
-        setError(null);
-
-        const input = e.target;
-        const previousInput = inputRefs[index - 1];
-        const nextInput = inputRefs[index + 1];
-
-        const newCode = [...code];
-
-        if (/^[a-z]+$/.test(input.value)) {
-            return;
-        } else {
-            newCode[index] = input.value;
-        }
-
-        setCode(newCode.join(''));
-        input.select();
-
-        if (input.value === '') {
-            if (previousInput?.current) {
-                const prev = previousInput.current.querySelector('input');
-                prev?.focus();
-            }
-        } else if (nextInput?.current) {
-            const next = nextInput.current.querySelector('input');
-            next?.select();
+    const handleComplete = (val) => {
+        if (val.length === 6) {
+            if (typeof callback === 'function') callback(val)
         }
     }
 
-    function handleFocus(e) {
-        e.target.select();
-    }
-
-    function handleKeyDown(e, index) {
-        const input = e.target;
-        const previousInput = inputRefs[index - 1];
-
-        if ((e.keyCode === 8 || e.keyCode === 46) && input.value === '') {
-            e.preventDefault();
-            setCode((prevCode) => prevCode.slice(0, index) + prevCode.slice(index + 1));
-            if (previousInput?.current) {
-                const prev = previousInput.current.querySelector('input');
-                prev?.focus();
-            }
+    const handleChange = (val) => {
+        setValue(val)
+        setError(null)
+        if (val.length === 6) {
+            handleComplete(val)
         }
     }
-
-    const handlePaste = (e) => {
-        e.preventDefault();
-
-        const pasted = e.clipboardData.getData('text').trim();
-
-        if (!/^\d{6}$/.test(pasted)) return;
-
-        const digits = pasted.split('');
-        setCode(pasted);
-
-        digits.forEach((digit, index) => {
-            const inputEl = inputRefs[index]?.current?.querySelector('input');
-            if (inputEl) inputEl.value = digit;
-        });
-
-        const lastInput = inputRefs[5]?.current?.querySelector('input');
-        lastInput?.focus();
-    };
 
     return (
-        <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            {[0, 1, 2, 3, 4, 5].map((index) => (
-                <Input
-                    key={index}
-                    type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    maxLength={1}
-                    onChange={(e) => handleInput(e, index)}
-                    ref={inputRefs[index]}
-                    autoFocus={index === 0}
-                    onFocus={handleFocus}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    onPaste={handlePaste}
-                    disabled={loading}
-                    error={error}
-                    sx={{
-                        width: 50,
-                        height: 60,
-                        textAlign: 'center',
-                        boxShadow: 'none',
-                        borderRadius: '12px',
-                        '& input': {
-                            textAlign: 'center',
-                            fontSize: 30,
-                            MozAppearance: 'textfield',
-                            '&::-webkit-outer-spin-button': {
-                                WebkitAppearance: 'none',
-                                margin: 0,
-                            },
-                            '&::-webkit-inner-spin-button': {
-                                WebkitAppearance: 'none',
-                                margin: 0,
-                            },
-                        },
-                    }}
-                />
-            ))}
+        <div ref={otpRef}>
+            <OTPInput
+                maxLength={6}
+                value={value}
+                onChange={handleChange}
+                disabled={loading}
+                autoFocus
+                inputMode="numeric"
+                pattern="[0-9]*"
+                containerClassName="otp-container"
+                render={({ slots }) => (
+                    <div style={{
+                        display: 'flex',
+                        gap: 8,
+                        justifyContent: 'center'
+                    }}>
+                        {slots.map((slot, idx) => (
+                            <div
+                                key={idx}
+                                className={`otp-slot ${error ? 'otp-slot-error' : ''}`}
+                                style={{
+                                    width: 50,
+                                    height: 60,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    border: error
+                                        ? '1px solid var(--joy-palette-danger-500)'
+                                        : slot.isActive
+                                            ? '2px solid var(--joy-palette-primary-500)'
+                                            : '1px solid var(--joy-palette-neutral-outlinedBorder)',
+                                    borderRadius: 12,
+                                    fontSize: 30,
+                                    fontWeight: 500,
+                                    backgroundColor: loading
+                                        ? 'var(--joy-palette-neutral-softBg)'
+                                        : 'var(--joy-palette-background-surface)',
+                                    color: 'var(--joy-palette-text-primary)',
+                                    transition: 'all 0.2s',
+                                    outline: 'none',
+                                    cursor: loading ? 'not-allowed' : 'text',
+                                    opacity: loading ? 0.6 : 1,
+                                }}
+                            >
+                                {slot.char !== null ? slot.char : slot.isActive ? '|' : ''}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            />
         </div>
-    );
+    )
 }
-
 
 export default CodeInput

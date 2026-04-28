@@ -15,7 +15,7 @@ export function Header() {
     )
 }
 
-export function DisplayError({ error }) {
+export function DisplayError({ error, sx = {} }) {
     return (
         <Typography
             color="danger"
@@ -26,7 +26,8 @@ export function DisplayError({ error }) {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 mb: '4px',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                ...sx
             }}
         >
             {error}

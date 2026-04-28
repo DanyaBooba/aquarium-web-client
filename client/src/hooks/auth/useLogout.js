@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
+import { apiFetch } from '../../utils/apiClient';
+import { resetAuthCache } from '../../utils/authCheck';
 
 export function useLogout() {
     return useCallback(async () => {
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/logout', {
+            const response = await apiFetch('/api/auth/logout', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -16,6 +18,7 @@ export function useLogout() {
             });
 
             localStorage.removeItem('accessToken');
+            resetAuthCache();
 
             if (!response.ok) {
                 throw new Error('Logout failed');

@@ -5,7 +5,7 @@ import {
     Link,
     Sheet,
 } from '@mui/joy';
-import { CaretDown, ChatCircleDots, Compass, House, Note, Shield, User } from '@phosphor-icons/react';
+import { CaretDown } from '@phosphor-icons/react';
 import { motion } from 'framer-motion';
 
 import { AppProfile } from '../../components/app/App';
@@ -24,7 +24,7 @@ function FAQAccordion() {
             variant="plain"
             sx={{
                 p: 2,
-                borderRadius: '12px',
+                borderRadius: '24px',
             }}
         >
             <AccordionSummary
@@ -93,51 +93,18 @@ function FAQAccordion() {
 }
 
 function FAQList() {
-    const LINK_CLASSES =
-        'MuiLink-root MuiLink-colorPrimary MuiLink-body-md MuiLink-underlineHover css-6rd2co-JoyLink-root';
-
-    const normalizeHtml = (html) => {
-        if (!html) return '';
-
-        return html.replace(
-            /<a\s+(?![^>]*class=)([^>]*href="[^"]+"[^>]*)>/gi,
-            `<a class="${LINK_CLASSES}" $1>`
-        ).replace(
-            /<a\s+([^>]*class=")([^"]*)"/gi,
-            `<a $1$2 ${LINK_CLASSES}"`
-        );
-    };
-
-    const showIcon = (icon) => {
-        switch (icon) {
-            case 'home':
-                return <House />
-            case 'profile':
-                return <User />
-            case 'posts':
-                return <Note />
-            case 'navigation':
-                return <Compass />
-            case 'security':
-                return <Shield />
-            case 'future':
-                return <ChatCircleDots />
-            default:
-                return null;
-        }
-    }
-
     return faq.map((section) => {
         const sectionId = slugify(section.title);
         return (
-            <Stack key={sectionId} spacing={1.5}>
+            <Stack key={sectionId} spacing={1}>
                 <Typography
                     id={sectionId}
                     level="h2"
-                    startDecorator={showIcon(section?.icon ?? null)}
                     sx={{
-                        mt: 1,
-                        wordBreak: 'break-word'
+                        // mt: 1,
+                        // mb: '0',
+                        mb: '8px !important',
+                        wordBreak: 'break-word',
                     }}
                 >
                     {section.title}
@@ -150,18 +117,26 @@ function FAQList() {
                             <Stack key={qId} spacing={0.5}>
                                 <Typography
                                     id={qId}
-                                    level="h3"
+                                    level="h4"
                                 >
                                     {item?.q}
                                 </Typography>
-                                <Typography level="body-md">
-                                    <span dangerouslySetInnerHTML={{ __html: normalizeHtml(item?.a) }} />
+                                <Typography
+                                    level="body-sm"
+                                    sx={{
+                                        '& ul': {
+                                            m: '0',
+                                            pl: '24px',
+                                        }
+                                    }}
+                                >
+                                    <span dangerouslySetInnerHTML={{ __html: item?.a }} />
                                 </Typography>
                             </Stack>
                         );
                     })}
                 </Stack>
-            </Stack>
+            </Stack >
         );
     })
 }
@@ -175,7 +150,7 @@ function slugify(text) {
 
 export default function PageSettingsFAQ() {
     return (
-        <AppProfile title="FAQ" desc="FAQ мессенджера Аквариум мини">
+        <AppProfile title="FAQ" desc="FAQ мессенджера Аквариум">
             <LayoutSettings header="FAQ">
                 <Stack spacing={3} mt={2}>
 

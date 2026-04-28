@@ -13,6 +13,7 @@ import {
 import { X } from '@phosphor-icons/react';
 import { useState } from 'react';
 import PersonShow from '../PersonShow/PersonShow';
+import { apiFetch } from '../../../utils/apiClient';
 
 function ProfileInfo({ countSubs, countSub, countPosts, userId, setTab }) {
     const [open, setOpen] = useState(false);
@@ -47,7 +48,7 @@ function ProfileInfo({ countSubs, countSub, countPosts, userId, setTab }) {
         if (type === 'sub' && subscriptions !== null) return;
 
         try {
-            const res = await fetch(`https://mini.aquarium.org.ru/api/users/${userId}/${type}`, {
+            const res = await apiFetch(`/api/users/${userId}/${type}`, {
                 credentials: 'include',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
@@ -82,7 +83,7 @@ function ProfileInfo({ countSubs, countSub, countPosts, userId, setTab }) {
 
     return (
         <>
-            <Card variant="plain" sx={{ mt: 3, borderRadius: '12px' }}>
+            <Card variant="plain" sx={{ mt: 3, borderRadius: '999px' }}>
                 <CardContent>
                     <Stack
                         direction="row"

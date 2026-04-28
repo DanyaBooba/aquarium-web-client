@@ -45,7 +45,7 @@ function PageSignIn() {
     }
 
     return (
-        <AppClear title="Авторизация в аккаунт" desc="Войти в аккаунт на сайте Аквариум мини">
+        <AppClear title="Авторизация в аккаунт" desc="Войти в аккаунт на сайте Аквариум">
             <Box sx={sxRoot}>
                 <Box sx={sxChild}>
                     <Box component="main" sx={sxMain}>

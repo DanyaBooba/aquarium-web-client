@@ -1,55 +1,25 @@
 import { Typography, Link } from '@mui/joy';
 import { useTheme } from '@mui/joy/styles';
 import { Link as RouterLink } from 'react-router-dom';
-import { randomLogoText } from '../../../utils/randomLogoText';
 
-function Logo({ link = "/feed", noLink = false, style, noRandom = true }) {
-    let mini = "мини";
+function IconLogo({ color = '#000', width = '86', height = '53' }) {
+    return (
+        <svg width={width} height={height} viewBox="0 0 86 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M21.2764 23.838C37.1592 -5.31896 72.3653 -4.06028 85.0967 8.17103C85.0967 8.17103 83.243 26.5241 59.7959 36.6535C42.5192 44.0965 25.7061 36.257 25.7061 36.257C23.316 39.7951 22.3601 46.9812 11.1484 52.0958L15.1025 33.0255C13.1076 31.4021 7.29404 26.6668 0 20.715C10.8639 17.962 15.6112 21.4314 21.2764 23.838ZM62.0166 4.94349C58.9352 4.94349 56.4365 7.44115 56.4365 10.5226C56.4366 13.604 58.9352 16.1017 62.0166 16.1017C65.0979 16.1015 67.5957 13.6039 67.5957 10.5226C67.5957 7.44127 65.0979 4.94368 62.0166 4.94349Z"
+                fill={color}
+                style={{
+                    transform: 'translateY(4px)'
+                }}
+            />
+        </svg>
+    )
+}
 
-    if (!noRandom) {
-        mini = randomLogoText();
-    }
-
+function Logo({ link = "/feed", style }) {
     const theme = useTheme();
-
-    if (noLink) {
-        return (
-            <div style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', ...style }}>
-                <Typography
-                    component="span"
-                    color="primary"
-                    level="title-lg"
-                    sx={{
-                        position: 'relative',
-                        textDecoration: 'none',
-                        color: theme.colors.logo + "!important",
-                        userSelect: 'none !important'
-                    }}
-                >
-                    аквариум
-                </Typography>
-                <Typography
-                    component="span"
-                    color="primary"
-                    level="title-lg"
-                    variant="solid"
-                    sx={{
-                        ml: 0.75,
-                        px: 0.75,
-                        pt: 0,
-                        backgroundColor: theme.colors.logo + "!important",
-                        borderRadius: '4px',
-                        textDecoration: 'none !important',
-                        userSelect: 'none !important',
-                        color: theme.colors.logoText + "!important",
-                        fontSize: '17px !important'
-                    }}
-                >
-                    <i>{mini}</i>
-                </Typography>
-            </div>
-        );
-    }
 
     return (
         <Link
@@ -67,6 +37,7 @@ function Logo({ link = "/feed", noLink = false, style, noRandom = true }) {
                 component="span"
                 color="primary"
                 level="title-lg"
+                startDecorator={<IconLogo width='48' color={theme.colors.logo} />}
                 sx={{
                     position: 'relative',
                     cursor: 'pointer',
@@ -75,30 +46,7 @@ function Logo({ link = "/feed", noLink = false, style, noRandom = true }) {
                     userSelect: 'none !important',
                 }}
             >
-                аквариум
-            </Typography>
-            <Typography
-                component="span"
-                color="primary"
-                level="title-lg"
-                variant="solid"
-                sx={{
-                    ml: 0.75,
-                    px: 0.75,
-                    pt: 0,
-                    backgroundColor: theme.colors.logo + "!important",
-                    borderRadius: '4px',
-                    textDecoration: 'none !important',
-                    cursor: 'pointer',
-                    userSelect: 'none !important',
-                    fontSize: '17px !important',
-                    color: theme.colors.logoText + "!important",
-                    '&:hover': {
-                        textDecoration: 'none !important',
-                    },
-                }}
-            >
-                <i>{mini}</i>
+                Аквариум
             </Typography>
         </Link>
     );

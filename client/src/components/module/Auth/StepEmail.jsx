@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion'
-import { Input, FormControl, Button } from '@mui/joy'
+import { Input, FormControl, Button, Divider, Box, Typography, Link } from '@mui/joy'
 import { AuthTitle, DisplayError } from './Modules'
 import { variantsEmail } from './animate'
 import { useState } from 'react';
+import YandexLogo from '../YandexLogo/YandexLogo';
+import { apiFetch } from '../../../utils/apiClient';
 
 function StepEmail({
     direction,
@@ -10,7 +12,8 @@ function StepEmail({
     handleEmailInputChange,
     setDirection,
     setStep,
-    setEmail
+    setEmail,
+    handlerYandexLogin
 }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,7 +31,7 @@ function StepEmail({
         setError(null);
 
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/email', {
+            const response = await apiFetch('/api/auth/email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -66,19 +69,21 @@ function StepEmail({
             animate="animate"
             exit={direction === 'forward' ? "exitForward" : "exitBackward"}
             variants={variantsEmail}
-            style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', top: 0, left: 0, paddingLeft: '4px', paddingRight: '4px' }}
+            style={{ position: 'relative', width: '100%', height: '100%', justifyContent: 'center', top: 0, left: 0, paddingLeft: '4px', paddingRight: '4px' }}
         >
-            <AuthTitle title="Войти в аккаунт" />
+            <AuthTitle title="Введите почту" />
             <FormControl required>
                 <Input
                     type="email"
                     name="email"
                     placeholder="Почта"
+                    autoComplete="email"
                     autoFocus
                     sx={{
                         borderRadius: '50px',
                         px: 2,
                         py: 1.5,
+                        mb: 1,
                         boxShadow: 'none',
                     }}
                     value={emailInput}
@@ -94,7 +99,7 @@ function StepEmail({
                 sx={{
                     borderRadius: '50px',
                     px: 2,
-                    py: 1.5,
+                    py: 1.75,
                     width: '100%',
                     fontSize: '16px'
                 }}
@@ -102,7 +107,38 @@ function StepEmail({
             >
                 Далее
             </Button>
-        </motion.form>
+            <Divider sx={{ my: 2 }}>или</Divider>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center' }}>
+                <Button
+                    onClick={handlerYandexLogin}
+                    variant="soft"
+                    sx={{
+                        borderRadius: '50px',
+                        px: 2,
+                        py: 1.25,
+                        width: '100%',
+                        gap: '.5rem',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}
+                >
+                    <YandexLogo size={32} />
+                    Войти с Яндекс ID
+                </Button>
+            </Box>
+
+            <Typography
+                level="body-xs"
+                sx={{
+                    textAlign: 'center',
+                }}
+            >
+                Продолжая вы соглашаетесь<br />с{' '}
+                <Link href="/legal">
+                    политикой конфиденциальности
+                </Link>
+            </Typography>
+        </motion.form >
     )
 }
 

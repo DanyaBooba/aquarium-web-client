@@ -1,7 +1,8 @@
-export const MAX_CHARS = 300
-export const MAX_FILES = 3
-export const MAX_FILE_SIZE_MB = 5
+export const MAX_CHARS = 800
+export const MAX_FILES = 5
+export const MAX_FILE_SIZE_MB = 50
 export const ALLOWED_TYPES = [
+    // images
     'image/jpeg',
     'image/png',
     'image/webp',
@@ -9,8 +10,8 @@ export const ALLOWED_TYPES = [
     'image/heic',
     'image/heif',
 
-    // 'application/pdf',
-    // 'application/msword',
-    // 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    // 'text/plain'
+    // video
+    'video/mp4',
+    'video/webm',
+    'video/quicktime'
 ]

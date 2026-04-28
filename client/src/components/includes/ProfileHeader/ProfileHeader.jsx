@@ -1,67 +1,134 @@
-import { Link, Box } from '@mui/joy';
-import { Bell } from '@phosphor-icons/react';
+import { Link, Box, Badge, Sheet, Typography, IconButton } from '@mui/joy';
+import { Bell, DownloadSimpleIcon, XIcon } from '@phosphor-icons/react';
 import Logo from '../../module/Logo/Logo';
-import { useAuth } from '../../../hooks/auth/useAuth';
 import { Link as RouterLink } from 'react-router-dom';
+import { useCountNotifications } from '../../app/NotificationProvider';
+import AquariumLogo from '../../module/Logo/Icon'
+import { useEffect, useState } from 'react';
+import { useAuth } from '../../../hooks/auth/useAuth';
 
-function ProfileHeader() {
-    const currentPath = window.location.pathname;
-    const { isAuth } = useAuth();
+function isMobileDevice() {
+    if (typeof window === 'undefined') return false
 
-    const menuProfile = [
-        // {
-        //     href: '/search',
-        //     Icon: MagnifyingGlass,
-        //     label: 'Поиск',
-        // },
-        // {
-        //     href: '/notifications',
-        //     Icon: Bell,
-        //     label: 'Уведомления',
-        // },
-    ];
+    const ua = navigator.userAgent || navigator.vendor
+    const isMobileUA = /android|iphone|ipad|ipod/i.test(ua)
+    const isSmallScreen = window.innerWidth <= 768
 
-    const menuGuest = [
-        // {
-        //     href: '/search',
-        //     Icon: MagnifyingGlass,
-        //     label: 'Поиск',
-        // },
-    ];
+    return isMobileUA || isSmallScreen
+}
 
-    const menu = isAuth ? menuProfile : menuGuest;
+function ShowApp() {
+    const [visible, setVisible] = useState(false)
+
+    useEffect(() => {
+        const stored = localStorage.getItem('showApp')
+
+        if (stored === '0') return
+        if (!isMobileDevice()) return
+
+        setVisible(true)
+    }, [])
+
+    const handleClose = () => {
+        localStorage.setItem('showApp', '0')
+        setVisible(false)
+    }
+
+    if (!visible) return null
 
     return (
-        <Box
-            sx={{ px: 2, py: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-            className="profile__header"
+        <Sheet
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                px: 2,
+                py: 1,
+                '& svg': {
+                    borderRadius: '8px',
+                },
+            }}
         >
-            <Logo noRandom={false} />
-            <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: 2 }}>
-                {menu?.length > 0 && menu.map(({ href, Icon, label }, index) => {
-                    const isActive = currentPath === href;
-                    return (
-                        <Link
-                            key={index}
-                            component={RouterLink}
-                            to={href}
-                            sx={{
-                                color: isActive ? 'primary.main' : 'neutral.500',
-                                paddingBottom: '2px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                '&:hover': {
-                                    color: 'primary.dark',
-                                },
-                            }}
-                            aria-label={label}
-                        >
-                            <Icon size={20} weight={isActive ? 'fill' : 'regular'} />
-                        </Link>
-                    );
-                })}
+            <AquariumLogo size={48} />
+
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography level="title-md">
+                    Аквариум
+                </Typography>
+
+                <Link
+                    href="#"
+                    level="body-xs"
+                    endDecorator={<DownloadSimpleIcon size={16} />}
+                >
+                    Скачать
+                </Link>
             </Box>
-        </Box>
+
+            <IconButton
+                size="sm"
+                variant="plain"
+                sx={{ ml: 'auto', borderRadius: '50px' }}
+                onClick={handleClose}
+            >
+                <XIcon size={18} />
+            </IconButton>
+        </Sheet>
+    )
+}
+
+function ButtonNotification() {
+    const countNotifications = useCountNotifications();
+    const currentPath = window.location.pathname;
+
+    const href = "/notifications";
+    const isActive = currentPath === href;
+
+    return (
+        <Badge
+            badgeContent={countNotifications}
+            color="danger"
+            variant="solid"
+            size="sm"
+        >
+            <Link
+                component={RouterLink}
+                to={href}
+                sx={{
+                    color: isActive ? 'primary.main' : 'neutral.500',
+                    paddingBottom: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    '&:hover': {
+                        color: 'primary.dark',
+                    },
+                }}
+                aria-label="Уведомления"
+            >
+                <Bell size={20} weight={isActive ? 'fill' : 'regular'} />
+            </Link>
+        </Badge>
+    )
+}
+
+function ProfileHeader() {
+    const { isAuth } = useAuth();
+
+    return (
+        <>
+            {/* <ShowApp /> */}
+            <Box
+                sx={{ px: 2, py: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                className="profile__header"
+            >
+                <Logo />
+                {isAuth && (
+                    <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: 2 }}>
+                        <ButtonNotification />
+                    </Box>
+                )}
+            </Box>
+        </>
     );
 }
 

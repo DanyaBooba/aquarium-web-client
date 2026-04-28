@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { ListItemButton, Typography, Avatar, Box, IconButton } from '@mui/joy'
+import Badge, { badgeClasses } from '@mui/joy/Badge';
 import { ChatCircle, UserCheck, UserPlus } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../../utils/apiClient';
+import { useIsOnline } from '../../app/OnlineProvider';
+import VerifiedBadge from '../../ui/VerifiedBadge';
 
 function PersonShow({ user }) {
     const navigate = useNavigate();
     const [follow, setFollow] = useState(user?.follow ?? false);
     const [loading, setLoading] = useState(false);
+    const isOnline = useIsOnline(user?.id);
 
     const handleSubscribeToggle = async (e) => {
         e.stopPropagation();
@@ -18,7 +23,7 @@ function PersonShow({ user }) {
             if (!accessToken) navigate('/auth');
 
             const method = follow ? "DELETE" : "POST";
-            const res = await fetch(`https://mini.aquarium.org.ru/api/user/follow/${user?.id}`, {
+            const res = await apiFetch(`/api/user/follow/${user?.id}`, {
                 method,
                 credentials: 'include',
                 headers: {
@@ -48,10 +53,34 @@ function PersonShow({ user }) {
 
     return (
         <ListItemButton
-            sx={{ p: 1.5, borderRadius: '12px' }}
+            sx={{ p: 1.5, borderRadius: '24px' }}
             onClick={handleClick}
         >
-            <Avatar src={user?.avatar ?? null} size="md" />
+            <Badge
+                invisible={!isOnline}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                badgeInset="14%"
+                color="success"
+                sx={{
+                    [`& .${badgeClasses.badge}`]: {
+                        '&::after': {
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            border: '2px solid',
+                            borderColor: 'background.surface',
+                            boxSizing: 'content-box',
+                            transform: 'translate(-2px, -2px) !important',
+                            content: '""',
+                        },
+                    },
+                }}
+            >
+                <Avatar src={user?.avatar?.includes('http') ? user?.avatar : `${process.env.REACT_APP_API_URL}${user?.avatar}`} size="md" />
+            </Badge>
 
             <Box
                 sx={{
@@ -64,27 +93,15 @@ function PersonShow({ user }) {
                     overflow: 'hidden',
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        overflow: 'hidden',
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        gap: 0.5,
-                    }}
-                >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
                     <Typography
                         level="body-lg"
-                        sx={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}
+                        noWrap
+                        sx={{ minWidth: 0 }}
                     >
-                        {user?.firstName}
-                        {' '}
-                        {user?.lastName}
+                        {user?.firstName}{' '}{user?.lastName}
                     </Typography>
+                    {!!user?.verified && <VerifiedBadge size={16} />}
                 </Box>
 
                 {user?.description && (

@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Modal from '@mui/joy/Modal';
 import Box from '@mui/joy/Box';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/joy/Button';
 
-const LINK_CLASSES = 'MuiLink-root MuiLink-colorPrimary MuiLink-body-md MuiLink-underlineHover css-6rd2co-JoyLink-root';
-
-export function Content({ content, style, removeLinks = false }) {
+export function Content({ content, style, removeLinks = false, showFull = false }) {
     const [open, setOpen] = useState(false);
     const [currentLink, setCurrentLink] = useState('');
+    const [needsGradient, setNeedsGradient] = useState(false);
+
+    const contentRef = useRef(null);
+    const MAX_HEIGHT = 160; // px
 
     const handleLinkClick = (e) => {
         if (e.target.tagName === 'A') {
@@ -28,16 +30,7 @@ export function Content({ content, style, removeLinks = false }) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
-        const requiredClasses = LINK_CLASSES.split(' ');
-
         doc.querySelectorAll('a').forEach(a => {
-            requiredClasses.forEach(cls => {
-                if (!a.classList.contains(cls)) {
-                    a.classList.add(cls);
-                }
-            });
-
-            // на всякий случай
             a.setAttribute('rel', 'noopener noreferrer');
             a.setAttribute('target', '_blank');
         });
@@ -50,17 +43,21 @@ export function Content({ content, style, removeLinks = false }) {
     if (removeLinks) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(content, 'text/html');
-
-        doc.querySelectorAll('a').forEach(a => {
-            a.replaceWith(a.textContent || '');
-        });
-
+        doc.querySelectorAll('a').forEach(a => a.replaceWith(a.textContent || ''));
         processedContent = doc.body.innerHTML;
     } else {
         processedContent = normalizeLinks(content);
     }
 
     const modifiedContent = { __html: processedContent };
+
+    // Проверяем, превышает ли высота блока MAX_HEIGHT
+    useEffect(() => {
+        if (contentRef.current && !showFull) {
+            const el = contentRef.current;
+            setNeedsGradient(el.scrollHeight > MAX_HEIGHT);
+        }
+    }, [content, showFull]);
 
     return (
         <>
@@ -76,16 +73,23 @@ export function Content({ content, style, removeLinks = false }) {
                     '& p': {
                         my: 0,
                         minHeight: '1em',
-                        '&:empty::before': {
-                            content: '"\\00A0"',
-                            visibility: 'hidden'
-                        }
+                        '&:empty::before': { content: '"\\00A0"', visibility: 'hidden' }
                     },
                     '& h3': { my: 0 },
-                    '& ul': { pl: 2, my: 0 },
-                    ...style
+                    '& ul': { pl: '24px', my: 0 },
+                    ...style,
+                    ...(!showFull && {
+                        maxHeight: MAX_HEIGHT,
+                        overflow: 'hidden',
+                        position: 'relative',
+                        ...(needsGradient && {
+                            maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)',
+                            WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)'
+                        })
+                    })
                 }}
                 onClick={handleLinkClick}
+                ref={contentRef}
             >
                 <div dangerouslySetInnerHTML={modifiedContent} />
             </Typography>

@@ -56,7 +56,7 @@ const fetchGetImages = async (link, setImages, setLoading, setError) => {
         const accessToken = localStorage.getItem('accessToken')
         if (!accessToken) return;
 
-        const res = await fetch(link, {
+        const res = await apiFetch(link, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -85,7 +85,7 @@ const fetchUpdateImage = async (link, body, setError = () => { }) => {
         const accessToken = localStorage.getItem('accessToken')
         if (!accessToken) return;
 
-        const res = await fetch(link, {
+        const res = await apiFetch(link, {
             method: 'PATCH',
             credentials: 'include',
             headers: {
@@ -119,7 +119,7 @@ function PageSettingsAppearance() {
 
     useEffect(() => {
         fetchGetImages(
-            'https://mini.aquarium.org.ru/api/profile/avatars',
+            '/api/profile/avatars',
             setLoadedAvatars,
             setLoadingAvatars,
             setErrorAvatar
@@ -132,7 +132,7 @@ function PageSettingsAppearance() {
 
     const handleClickAvatar = (avatar) => {
         fetchUpdateImage(
-            'https://mini.aquarium.org.ru/api/profile/avatar',
+            '/api/profile/avatar',
             JSON.stringify({ avatar: avatar }),
             setErrorAvatar
         );
@@ -148,7 +148,7 @@ function PageSettingsAppearance() {
         setCropAvatarOpen(false);
         setSelectedAvatarImage(null);
 
-        const data = await uploadCroppedImage(croppedFile, 'https://mini.aquarium.org.ru/api/profile/avatar/upload', setErrorAvatar);
+        const data = await uploadCroppedImage(croppedFile, '/api/profile/avatar/upload', setErrorAvatar);
 
         if (data) {
             setDefaultAvatar(data);
@@ -168,7 +168,7 @@ function PageSettingsAppearance() {
 
     useEffect(() => {
         fetchGetImages(
-            'https://mini.aquarium.org.ru/api/profile/caps',
+            '/api/profile/caps',
             setLoadedCaps,
             setLoadingCaps,
             setErrorCap
@@ -181,7 +181,7 @@ function PageSettingsAppearance() {
 
     const handleClickCover = (cover) => {
         fetchUpdateImage(
-            'https://mini.aquarium.org.ru/api/profile/cap',
+            '/api/profile/cap',
             JSON.stringify({ cap: cover }),
             setErrorCap
         );
@@ -197,7 +197,7 @@ function PageSettingsAppearance() {
         setCropCapOpen(false);
         setSelectedCapImage(null);
 
-        const data = await uploadCroppedImage(croppedFile, 'https://mini.aquarium.org.ru/api/profile/cap/upload', setErrorCap);
+        const data = await uploadCroppedImage(croppedFile, '/api/profile/cap/upload', setErrorCap);
 
         if (data) {
             setDefaultCap(data);

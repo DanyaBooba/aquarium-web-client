@@ -12,7 +12,7 @@ function PageSearch() {
     const [tab, setTab] = useState(localStorage.getItem('searchTabs') ?? 'users')
 
     return (
-        <AppProfile title={tab === 'users' ? 'Поиск пользователей' : 'Поиск записей'} desc="Найдите интересующих вас пользователей и интересные вам записи в социальной сети Аквариум мини" containerSx={{ pt: '0 !important' }}>
+        <AppProfile title={tab === 'users' ? 'Поиск пользователей' : 'Поиск записей'} desc="Найдите интересующих вас пользователей и интересные вам записи в социальной сети Аквариум" containerSx={{ pt: '0 !important' }}>
             <Box maxWidth="600px" mx="auto" mt={2}>
                 <Typography level="h4" sx={{
                     '@media (min-width: 1101px)': {

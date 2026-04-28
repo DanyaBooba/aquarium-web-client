@@ -6,6 +6,7 @@ body {
 div[id="root"] {
     display: flex;
     flex-direction: column;
+    height: 100dvh !important;
 }
 
 main {

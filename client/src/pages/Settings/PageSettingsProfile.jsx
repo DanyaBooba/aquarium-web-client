@@ -7,6 +7,7 @@ import { useProfile } from '../../hooks/profile/useProfile';
 import { useEffect, useState } from 'react';
 import ServerError from '../../components/module/ServerError/ServerError';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../utils/apiClient';
 
 function MyInput({ sx, error, ...props }) {
     return (
@@ -83,7 +84,7 @@ function PageSettingsProfile() {
             setFieldErrors({});
             setIsSaving(true);
             setSaveError(null);
-            const res = await fetch('https://mini.aquarium.org.ru/api/profile', {
+            const res = await apiFetch('/api/profile', {
                 method: 'PATCH',
                 credentials: 'include',
                 headers: {
@@ -198,28 +199,28 @@ function PageSettingsProfile() {
                             </Typography>
                         </Box>
 
-                        {/* <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+                        <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                             <List>
                                 <SettingsItem
                                     label="Установить пароль"
                                     onClick={() => navigation('/settings/profile/password')}
                                 />
-                                <SettingsItem
+                                {/* <SettingsItem
                                     label="Сменить почту"
                                     onClick={() => navigation('/settings/profile')}
-                                />
+                                /> */}
                             </List>
-                        </Sheet> */}
+                        </Sheet>
 
-                        {/* <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+                        <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                             <List>
                                 <SettingsItem
                                     label="Удалить аккаунт"
                                     color="danger"
-                                    onClick={() => navigation('/settings/profile')}
+                                    onClick={() => navigation('/settings/profile/delete')}
                                 />
                             </List>
-                        </Sheet> */}
+                        </Sheet>
                     </>
                 ) : null}
             </LayoutSettings>

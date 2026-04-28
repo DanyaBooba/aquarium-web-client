@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import { OnlineProvider } from './OnlineProvider';
 
 const SocketContext = createContext(null);
 
@@ -8,13 +9,13 @@ export function SocketProvider() {
     const [socket, setSocket] = useState(null);
 
     useEffect(() => {
-        const newSocket = io({
+        const newSocket = io(process.env.REACT_APP_API_URL, {
             withCredentials: true,
             transports: ['polling', 'websocket'],
         });
 
         newSocket.on('connect', () => {
-            console.log('socket connected', newSocket.id);
+            // console.log('socket connected', newSocket.id);
         });
 
         newSocket.on('connect_error', (err) => {
@@ -35,7 +36,9 @@ export function SocketProvider() {
 
     return (
         <SocketContext.Provider value={socket}>
-            <Outlet />
+            <OnlineProvider>
+                <Outlet />
+            </OnlineProvider>
         </SocketContext.Provider>
     );
 }

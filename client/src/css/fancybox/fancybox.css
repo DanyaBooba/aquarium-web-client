@@ -1,3 +1,65 @@
-.f-carousel__toolbar__column button.f-button[title="Toggle slideshow"] {
-    display: none !important;
+.fancybox__container {
+    --f-bg: #0f0f0f;
+    --f-backdrop-bg: rgba(0, 0, 0, 0.92);
+    --f-toolbar-bg: rgba(20, 20, 25, 0.75);
+    --f-button-bg: rgba(40, 40, 50, 0.6);
+    --f-button-hover-bg: rgba(70, 70, 85, 0.9);
+    --f-button-color: #e0e0ff;
+    --f-caption-color: #d0d0ff;
+    --f-thumb-border-color: #6a5acd;
+    --f-transition-duration: 0.28s;
+}
+
+.f-carousel__toolbar {
+    background: var(--f-toolbar-bg) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0 0 16px 16px;
+    padding: 8px 16px;
+    margin: 0 auto;
+    max-width: 90%;
+}
+
+.f-button {
+    background: var(--f-button-bg) !important;
+    border-radius: 50% !important;
+    width: 44px !important;
+    height: 44px !important;
+    transition: all 0.2s ease;
+}
+
+.f-button:hover,
+.f-button:focus-visible {
+    background: var(--f-button-hover-bg) !important;
+    transform: scale(1.12);
+}
+
+.f-caption {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    padding: 24px 16px 16px;
+    color: var(--f-caption-color);
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 1.05rem;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.f-thumbs__slide__img {
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.25s ease;
+}
+
+.f-thumbs__slide--active .f-thumbs__slide__img,
+.f-thumbs__slide__img:hover {
+    border-color: var(--f-thumb-border-color);
+    transform: scale(1.08);
+}
+
+.f-carousel__toolbar__column.is-right {
+    gap: .25rem;
+}
+
+.f-carousel__toolbar.is-absolute {
+    right: 0 !important;
+    left: auto !important;
 }

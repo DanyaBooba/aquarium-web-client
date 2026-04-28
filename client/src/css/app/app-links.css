@@ -1,0 +1,40 @@
+a {
+    /* font-size: var(--joy-fontSize-md, 1rem); */
+    line-height: var(--joy-lineHeight-md, 1.5);
+    color: var(--variant-plainColor, rgba(var(--joy-palette-primary-mainChannel) / 1));
+    text-decoration-thickness: max(0.08em, 1px);
+    font-family: var(--joy-fontFamily-body, "Inter", var(--joy-fontFamily-fallback, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"));
+    text-underline-offset: 0.15em;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    margin: 0;
+    border-radius: var(--joy-radius-xs);
+    padding: 0;
+    cursor: pointer;
+    text-decoration-color: var(--variant-outlinedBorder, rgba(var(--joy-palette-primary-mainChannel) / var(--Link-underlineOpacity, 0.72)));
+    text-decoration: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+}
+
+@media(hover: hover) {
+    a:hover {
+        text-decoration-line: underline;
+    }
+}
+
+a:focus-visible {
+    outline-offset: var(--focus-outline-offset, var(--joy-focus-thickness, 2px));
+    outline: var(--joy-focus-thickness, 2px) solid var(--joy-palette-focusVisible, #0B6BCB);
+    text-decoration-line: underline;
+}

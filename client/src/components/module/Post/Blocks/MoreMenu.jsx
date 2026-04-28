@@ -4,6 +4,7 @@ import { Dropdown, Menu, MenuButton, MenuItem, Divider, Box } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 import { useDeletePost } from '../../../../hooks/post/useDeletePost';
 import ModalConfirmDelete from '../../ModalConfirmDelete/ModalConfirmDelete';
+import { apiFetch } from '../../../../utils/apiClient';
 
 const bookmarkCache = new Map();
 
@@ -17,7 +18,7 @@ function ButtonBookmark({ globalId }) {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) return;
 
-            const res = await fetch(`https://mini.aquarium.org.ru/api/post/bookmark/${globalId}`, {
+            const res = await apiFetch(`/api/post/bookmark/${globalId}`, {
                 method: bookmark ? 'DELETE' : 'POST',
                 credentials: 'include',
                 headers: {
@@ -48,7 +49,7 @@ function ButtonBookmark({ globalId }) {
                 const accessToken = localStorage.getItem('accessToken');
                 if (!accessToken) return;
 
-                const res = await fetch(`https://mini.aquarium.org.ru/api/post/bookmark/${globalId}`, {
+                const res = await apiFetch(`/api/post/bookmark/${globalId}`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -202,8 +203,8 @@ function MoreMenu({ globalId = 0, myPost = false, posAbsolute = true }) {
                     {myPost && <ButtonEdit globalId={globalId} />}
                     {myPost && <ButtonStats globalId={globalId} />}
 
-                    <Divider sx={{ my: 0.5 }} />
-                    {!myPost && <ButtonReport />}
+                    {myPost && <Divider sx={{ my: 0.5 }} />}
+                    {/* {!myPost && <ButtonReport />} */}
                     {myPost && <ButtonDelete onClick={() => setOpenModalDelete(true)} />}
                 </Menu>
             </Dropdown>

@@ -4,7 +4,65 @@ import { AuthTitle, DisplayError } from './Modules'
 import { variantsEmail } from './animate'
 import CodeInput from '../CodeInput/CodeInput'
 import { Pencil } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { apiFetch } from '../../../utils/apiClient'
+
+function ButtonResendCode({ resendCode, email }) {
+    const [timeLeft, setTimeLeft] = useState(59)
+    const [isDisabled, setIsDisabled] = useState(true)
+
+    useEffect(() => {
+        if (timeLeft <= 0) {
+            setIsDisabled(false)
+            return
+        }
+
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => prev - 1)
+        }, 1000)
+
+        return () => clearInterval(timer)
+    }, [timeLeft])
+
+    const handleResend = () => {
+        resendCode(email)
+        setTimeLeft(59)
+        setIsDisabled(true)
+    }
+
+    return (
+        <Button
+            onClick={handleResend}
+            disabled={isDisabled}
+            variant="outlined"
+            color="neutral"
+            sx={{
+                borderRadius: '50px',
+                px: 1.5,
+                py: 1,
+                width: '100%',
+                mt: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 1
+            }}
+        >
+            Отправить код повторно
+            {isDisabled && (
+                <Typography
+                    level="body-sm"
+                    sx={{
+                        color: 'text.tertiary',
+                        fontVariantNumeric: 'tabular-nums'
+                    }}
+                >
+                    {timeLeft}
+                </Typography>
+            )}
+        </Button>
+    )
+}
 
 function StepVerify({
     direction,
@@ -15,13 +73,14 @@ function StepVerify({
 }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [resetTrigger, setResetTrigger] = useState(0);
 
     const handleCodeSubmit = async (code) => {
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/code', {
+            const response = await apiFetch('/api/auth/code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code, email }),
@@ -52,6 +111,8 @@ function StepVerify({
             }
         } catch (err) {
             setError(err.message || 'Ошибка подтверждения');
+            // Сброс кода через 800мс при ошибке
+            setResetTrigger(prev => prev + 1);
         } finally {
             setLoading(false);
         }
@@ -62,7 +123,7 @@ function StepVerify({
         setError(null);
 
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/email', {
+            const response = await apiFetch('/api/auth/email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email: email }),
@@ -77,6 +138,9 @@ function StepVerify({
             if (result.status !== 'send') {
                 throw new Error('Не удалось отправить код');
             }
+
+            // Сброс кода при успешной отправке
+            setResetTrigger(prev => prev + 1);
         } catch (err) {
             setError(err.message || 'Ошибка сервера');
         } finally {
@@ -130,22 +194,20 @@ function StepVerify({
                 </IconButton>
             </Box>
 
-            {error && <DisplayError error={error} />}
+            {error && <DisplayError error={error} sx={{ mb: '0 !important', mt: '8px' }} />}
             <Stack spacing={2}>
                 <CodeInput
                     callback={handleCodeSubmit}
                     setError={setError}
                     loading={loading}
                     error={error}
+                    reset={resetTrigger}
                 />
             </Stack>
-            <Button
-                onClick={() => resendCode(email)}
-                variant="outlined"
-                color="neutral"
-                sx={{ borderRadius: '50px', px: 1.5, py: 1, width: '100%', mt: 1 }}>
-                Отправить код повторно
-            </Button>
+            <ButtonResendCode
+                resendCode={resendCode}
+                email={email}
+            />
         </motion.form>
     )
 }

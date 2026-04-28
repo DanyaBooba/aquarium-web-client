@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Input, FormControl, Button, Box, Typography, IconButton, Checkbox } from '@mui/joy';
+import { Input, FormControl, Button, Box, Typography, IconButton, Checkbox, Link } from '@mui/joy';
 import { AuthTitle, DisplayError } from './Modules';
 import { variantsPassword } from './animate';
 import { Pencil } from '@phosphor-icons/react';
 import ModalPrivacyContent from '../ModalPrivacyContent/ModalPrivacyContent';
+import { apiFetch } from '../../../utils/apiClient';
 
 function StepRegister({ direction, email, handleEditEmail }) {
     const [agreed, setAgreed] = useState(false);
@@ -26,7 +27,7 @@ function StepRegister({ direction, email, handleEditEmail }) {
         setError(null);
 
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/register', {
+            const response = await apiFetch('/api/auth/register', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -135,27 +136,13 @@ function StepRegister({ direction, email, handleEditEmail }) {
                         />
                         <Typography level="body-sm" sx={{ lineHeight: 1.4 }}>
                             Я принимаю{' '}
-                            <Typography
-                                component="span"
-                                sx={{ color: 'primary.plainColor', cursor: 'pointer' }}
-                                onClick={() => {
-                                    setModalText('privacy')
-                                    setOpenModal(true)
-                                }}
-                            >
+                            <Link href="/legal">
                                 политику конфиденциальности
-                            </Typography>
-                            {' '}и{' '}
-                            <Typography
-                                component="span"
-                                sx={{ color: 'primary.plainColor', cursor: 'pointer' }}
-                                onClick={() => {
-                                    setModalText('terms')
-                                    setOpenModal(true)
-                                }}
-                            >
+                            </Link>
+                            {' и '}
+                            <Link href="/legal">
                                 условия использования
-                            </Typography>
+                            </Link>
                         </Typography>
                     </Box>
                 </FormControl>

@@ -1,5 +1,7 @@
+import { apiFetch } from "./apiClient";
+
 export const getCsrfToken = async () => {
-    const response = await fetch('https://mini.aquarium.org.ru/api/auth/csrf', {
+    const response = await apiFetch('/api/auth/csrf', {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }

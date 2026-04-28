@@ -40,7 +40,7 @@ function Post({ post }) {
         }
     };
 
-    const borderColor = isFocused ? '#8884ff' : borderColorStatus();
+    const borderColor = borderColorStatus();
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -65,13 +65,13 @@ function Post({ post }) {
                 width: '100%',
                 display: 'block',
                 outline: 'none',
-                borderRadius: '14px',
+                borderRadius: '26px',
                 border: '2px solid',
                 borderColor,
                 position: 'relative',
                 transition: 'border-color 0.1s ease-in-out',
 
-                ...(isModerating && !isFocused && {
+                ...(isModerating && {
                     borderColor: 'transparent',
                     backgroundImage: `
                         ${theme.colors.post.status.moderation.start},
@@ -82,14 +82,9 @@ function Post({ post }) {
                     backgroundSize: '400% 400%',
                     animation: 'gradientBorderMove 3s ease infinite',
                 }),
-
-                '&:focus-visible': {
-                    borderColor: '#8884ff',
-                    boxShadow: '0 0 0 2px rgba(136,132,255,0.5)',
-                },
             }}
         >
-            <Card variant="plain" sx={{ borderRadius: '12px', position: 'relative' }}>
+            <Card variant="plain" sx={{ borderRadius: '24px', position: 'relative' }}>
                 {/* More Menu */}
                 {isAuth && <MoreMenu globalId={post?.id ?? 0} myPost={post?.myPost ?? false} />}
 
@@ -101,6 +96,7 @@ function Post({ post }) {
                         lastName={post?.user?.lastName}
                         username={post?.user?.username}
                         idUser={post?.user?.id}
+                        verified={!!post?.user?.verified}
                         date={post?.created_at}
                         maxWidth="90"
                     />
@@ -116,7 +112,7 @@ function Post({ post }) {
                     />
 
                     {/* Attachments */}
-                    <Attachments attachments={post?.attachments} />
+                    <Attachments attachments={post?.attachments} postId={post?.id} />
 
                     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                         <Stack direction="row" spacing={1} alignItems="center">

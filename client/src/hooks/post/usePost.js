@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../utils/apiClient';
 
 export function usePost(idUser, idPost) {
     const navigate = useNavigate();
@@ -17,13 +18,13 @@ export function usePost(idUser, idPost) {
                 setLoading(true);
                 setError(null);
 
-                const url = new URL('https://mini.aquarium.org.ru/api/post', window.location.origin);
+                const url = new URL('/api/post', process.env.REACT_APP_API_URL);
                 url.searchParams.append('idUser', idUser);
                 url.searchParams.append('idPost', idPost);
 
                 const accessToken = localStorage.getItem('accessToken') ?? null;
 
-                const response = await fetch(url.toString(), {
+                const response = await apiFetch(url.toString(), {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

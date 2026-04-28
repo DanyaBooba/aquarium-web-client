@@ -2,6 +2,7 @@ import { Avatar, Box, Button, ListItem, ListItemDecorator, Sheet, Stack, Typogra
 import { AndroidLogo, Desktop, DeviceMobile, LinuxLogo, WindowsLogo } from "@phosphor-icons/react";
 import ModalConfirmDelete from "../../../components/module/ModalConfirmDelete/ModalConfirmDelete";
 import { useState } from "react";
+import { apiFetch } from "../../../utils/apiClient";
 
 function AppleIcon() {
     return (
@@ -94,10 +95,10 @@ export default function DeviceItem({ session, cancel = false, canCancel = false,
     const [openModal, setOpenModal] = useState(false);
 
     const sessionInfo = session.session || {};
-    const { icon, color, typeLabel } = getDeviceConfig(sessionInfo);
+    const { icon, color } = getDeviceConfig(sessionInfo);
     const title = `${sessionInfo.os || 'Unknown OS'} ${sessionInfo.osVersion || ''}`.trim();
     const dateStr = formatDate(session.created_at);
-    const ipStr = formatIP(session.ipaddress);
+    // const ipStr = formatIP(session.ipaddress);
     const browserStr = sessionInfo.browser || 'Неизвестный браузер';
 
     const handlerCancelClick = () => setOpenModal(true);
@@ -109,7 +110,7 @@ export default function DeviceItem({ session, cancel = false, canCancel = false,
                     const accessToken = localStorage.getItem('accessToken');
                     if (!accessToken) return;
 
-                    const res = await fetch(`https://mini.aquarium.org.ru/api/user/tokens?id=${session?.id}`, {
+                    const res = await apiFetch(`/api/user/tokens?id=${session?.id}`, {
                         method: 'DELETE',
                         credentials: 'include',
                         headers: {
@@ -136,7 +137,7 @@ export default function DeviceItem({ session, cancel = false, canCancel = false,
         <Sheet
             variant="outlined"
             sx={{
-                borderRadius: '12px',
+                borderRadius: '24px',
                 p: 1,
                 mb: 2,
                 border: 'none'
@@ -158,7 +159,7 @@ export default function DeviceItem({ session, cancel = false, canCancel = false,
                     </Stack>
 
                     <Typography
-                        level="body-sm"
+                        level="body-xs"
                         color="neutral"
                         sx={{
                             display: 'flex',
@@ -168,8 +169,6 @@ export default function DeviceItem({ session, cancel = false, canCancel = false,
                         }}
                     >
                         <span>{browserStr}</span>
-                        <DotIcon />
-                        <span>{ipStr}</span>
                         <DotIcon />
                         <span>{dateStr}</span>
                     </Typography>

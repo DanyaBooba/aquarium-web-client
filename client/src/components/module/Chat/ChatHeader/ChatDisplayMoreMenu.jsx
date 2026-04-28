@@ -1,11 +1,13 @@
 import { Box, Dropdown, Menu, MenuButton, MenuItem } from "@mui/joy";
 import { DotsThreeVertical, Trash } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { apiFetch } from "../../../../utils/apiClient";
+import ModalConfirmDelete from "../../ModalConfirmDelete/ModalConfirmDelete";
 
 const handlerDeleteChat = async (userId = 0) => {
     try {
-        const res = await apiFetch(`https://mini.aquarium.org.ru/api/messages/${userId}`, {
+        const res = await apiFetch(`/api/messages/${userId}`, {
             method: 'DELETE',
         });
 
@@ -21,10 +23,11 @@ const handlerDeleteChat = async (userId = 0) => {
 
 export default function ChatDisplayMoreMenu({ userId = 0, bookmark = false }) {
     const navigate = useNavigate();
+    const [openConfirm, setOpenConfirm] = useState(false);
 
     const deleteMessages = async () => {
         const success = await handlerDeleteChat(userId);
-
+        setOpenConfirm(false);
         if (success) {
             navigate('/messages');
         }
@@ -68,12 +71,21 @@ export default function ChatDisplayMoreMenu({ userId = 0, bookmark = false }) {
                             Заблокировать
                         </MenuItem>
                     )} */}
-                    <MenuItem onClick={deleteMessages} color="danger" sx={{ py: 1 }}>
+                    <MenuItem onClick={() => setOpenConfirm(true)} color="danger" sx={{ py: 1 }}>
                         <Trash size={20} />
                         Удалить чат
                     </MenuItem>
                 </Menu>
             </Dropdown>
+
+            <ModalConfirmDelete
+                open={openConfirm}
+                setOpen={setOpenConfirm}
+                onDelete={deleteMessages}
+                title="Удалить чат?"
+                desc="Все сообщения будут удалены безвозвратно."
+                buttonActiveText="Удалить"
+            />
         </Box>
     );
 }

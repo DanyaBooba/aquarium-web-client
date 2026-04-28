@@ -24,8 +24,7 @@ import {
     ALLOWED_TYPES
 } from '../../config/configPost'
 import ModalConfirmDelete from '../../components/module/ModalConfirmDelete/ModalConfirmDelete'
-
-const LINK_CLASSES = 'MuiLink-root MuiLink-colorPrimary MuiLink-body-md MuiLink-underlineHover css-6rd2co-JoyLink-root';
+import { apiFetch } from '../../utils/apiClient'
 
 const commonButtonSx = {
     display: 'flex',
@@ -69,7 +68,7 @@ function PageEditpost() {
             try {
                 const accessToken = localStorage.getItem('accessToken')
 
-                const res = await fetch(`https://mini.aquarium.org.ru/api/post?id=${globalPostId}`, {
+                const res = await apiFetch(`/api/post?id=${globalPostId}`, {
                     credentials: 'include',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -120,7 +119,6 @@ function PageEditpost() {
                 HTMLAttributes: {
                     target: '_blank',
                     rel: 'noopener noreferrer',
-                    class: LINK_CLASSES,
                 },
             }),
         ],
@@ -202,7 +200,7 @@ function PageEditpost() {
         const accessToken = localStorage.getItem('accessToken')
         if (!accessToken) throw new Error('Необходима авторизация')
 
-        const res = await fetch('https://mini.aquarium.org.ru/api/post/upload', {
+        const res = await apiFetch('/api/post/upload', {
             method: 'POST',
             body: formData,
             headers: {
@@ -245,7 +243,7 @@ function PageEditpost() {
                 status,
             }
 
-            const res = await fetch(`https://mini.aquarium.org.ru/api/post?id=${globalPostId}`, {
+            const res = await apiFetch(`/api/post?id=${globalPostId}`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -276,7 +274,7 @@ function PageEditpost() {
             const accessToken = localStorage.getItem('accessToken')
             if (!accessToken) throw new Error('Требуется авторизация')
 
-            const res = await fetch(`https://mini.aquarium.org.ru/api/post?id=${globalPostId}`, {
+            const res = await apiFetch(`/api/post?id=${globalPostId}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -334,7 +332,7 @@ function PageEditpost() {
     }, [editor, isDisabled, handleSubmit]);
 
     return (
-        <AppProfile title="Изменить запись" desc="Изменение записи в социальной сети Аквариум мини">
+        <AppProfile title="Изменить запись" desc="Изменение записи в социальной сети Аквариум">
             <Box sx={{ py: 2, display: 'flex', justifyContent: 'space-between' }}>
                 <Typography level="h4">
                     Изменить запись

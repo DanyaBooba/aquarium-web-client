@@ -9,6 +9,7 @@ export default function ChatCss() {
                 }
                 main {
                     margin-bottom: 0 !important;
+                    max-width: 100%;
                 }
                 .chat__motion-div {
                     padding-left: 24px;

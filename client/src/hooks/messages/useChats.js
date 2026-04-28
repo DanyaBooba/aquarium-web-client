@@ -10,7 +10,7 @@ export function useChats() {
     useEffect(() => {
         const fetchChats = async () => {
             try {
-                const response = await apiFetch('https://mini.aquarium.org.ru/api/chats', {
+                const response = await apiFetch('/api/chats', {
                     method: 'GET'
                 });
 

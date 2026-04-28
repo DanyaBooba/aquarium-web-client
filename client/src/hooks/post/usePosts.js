@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiFetch } from '../../utils/apiClient';
 
 export function usePosts({ idUser = null, side = true, category = 'posts', feed = 'feed' } = {}) {
     const [posts, setPosts] = useState(null);
@@ -15,13 +16,13 @@ export function usePosts({ idUser = null, side = true, category = 'posts', feed 
 
                 const accessToken = localStorage.getItem('accessToken') ?? null;
 
-                const url = new URL('https://mini.aquarium.org.ru/api/posts', window.location.origin);
+                const url = new URL('/api/posts', process.env.REACT_APP_API_URL);
                 if (idUser) url.searchParams.append('idUser', idUser);
                 url.searchParams.append('side', side);
                 url.searchParams.append('category', category);
                 url.searchParams.append('feed', feed);
 
-                const response = await fetch(url.toString(), {
+                const response = await apiFetch(url.toString(), {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

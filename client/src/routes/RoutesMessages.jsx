@@ -8,4 +8,5 @@ import PageChat from '../pages/PageChat/PageChat'
 export const RoutesMessages = [
     <Route path="/messages" element={<ProfileMiddleware><PageMessages /></ProfileMiddleware>} key="route-u-messages" />,
     <Route path="/chat/:id" element={<ProfileMiddleware><PageChat /></ProfileMiddleware>} key="route-u-chat" />,
+    <Route path="/chat/g/:chatId" element={<ProfileMiddleware><PageChat isGroup /></ProfileMiddleware>} key="route-u-g" />,
 ]

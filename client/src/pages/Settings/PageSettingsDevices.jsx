@@ -12,17 +12,17 @@ import ServerError from '../../components/module/ServerError/ServerError';
 import DeviceItem from './Devices/DeviceItem';
 import { AnimatePresence, motion } from 'framer-motion';
 import { WarningCircle } from '@phosphor-icons/react';
+import { apiFetch } from '../../utils/apiClient';
 
 function ShowDevices({ currentSession = {}, otherSessions = [], onDelete = () => { }, canCancel = false }) {
     return (
         <Stack spacing={2} mt={2}>
             {!canCancel && (
-
                 <Sheet
                     variant="soft"
                     color="warning"
                     sx={{
-                        borderRadius: '12px',
+                        borderRadius: '24px',
                         p: 2,
                         mb: 2,
                     }}
@@ -96,7 +96,7 @@ export default function PageSettingsDevices() {
             try {
                 const accessToken = localStorage.getItem('accessToken')
 
-                const res = await fetch(`https://mini.aquarium.org.ru/api/user/tokens`, {
+                const res = await apiFetch(`/api/user/tokens`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

@@ -65,6 +65,19 @@ function TemplateAuth() {
         setStep('email');
     };
 
+    const handlerYandexLogin = () => {
+        const clientId = '6a2d08c521b948f8a03ec6c019b3ed5f';
+
+        const domain = process.env.REACT_APP_API_URL;
+
+        const redirectUri = encodeURIComponent(
+            `${domain}/api/auth/yandex`
+        );
+
+        const url = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
+        window.location.href = url;
+    }
+
     return (
         <Box sx={{
             position: 'relative',
@@ -85,6 +98,7 @@ function TemplateAuth() {
                         setDirection={setDirection}
                         setStep={setStep}
                         setEmail={setEmail}
+                        handlerYandexLogin={handlerYandexLogin}
                     />
                 )}
 

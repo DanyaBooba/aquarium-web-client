@@ -152,7 +152,7 @@ export default function TemplateComments({ globalPostId = 0 }) {
         <Box my={4}>
             <Typography level="title-lg" mb={2} id="comments">
                 Комментарии
-                {!error && countComments >= 0 && (
+                {!error && countComments > 0 && (
                     <ShowCountComments countComments={countComments} />
                 )}
             </Typography>

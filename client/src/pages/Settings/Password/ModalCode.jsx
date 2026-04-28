@@ -8,7 +8,7 @@ export default function ModalCode({ openModal = false, setOpenModal = () => { } 
     const [error, setError] = useState(null);
 
     const handleCodeSubmit = async (code) => {
-        console.log('Введенный код', code)
+        // console.log('Введенный код', code)
     }
 
     return (

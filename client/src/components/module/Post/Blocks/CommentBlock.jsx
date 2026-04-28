@@ -1,5 +1,5 @@
 import { Typography, Box } from '@mui/joy'
-import { ChatCircle } from '@phosphor-icons/react'
+import { ChatIcon } from '@phosphor-icons/react'
 import { useNavigate } from 'react-router-dom';
 
 function CommentBlock({ postLink, comments }) {
@@ -38,7 +38,7 @@ function CommentBlock({ postLink, comments }) {
                 },
             }}
         >
-            <ChatCircle size={20} />
+            <ChatIcon size={20} />
             {!!comments && comments > 0 && <Typography level="body-xs">{comments}</Typography>}
         </Box>
     );

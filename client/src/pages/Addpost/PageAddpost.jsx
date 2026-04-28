@@ -23,7 +23,7 @@ import {
     ALLOWED_TYPES
 } from '../../config/configPost'
 
-const LINK_CLASSES = 'MuiLink-root MuiLink-colorPrimary MuiLink-body-md MuiLink-underlineHover css-6rd2co-JoyLink-root';
+import { apiFetch } from '../../utils/apiClient';
 
 function PageAddpost() {
     const [topic, setTopic] = useState('')
@@ -63,7 +63,6 @@ function PageAddpost() {
                 HTMLAttributes: {
                     target: '_blank',
                     rel: 'noopener noreferrer',
-                    class: LINK_CLASSES,
                 },
             }),
         ],
@@ -91,20 +90,26 @@ function PageAddpost() {
 
     const handleFileChange = async (e) => {
         setLoading(true)
-        const files = Array.from(e.target.files)
-        const newFiles = []
+        setError(null)
 
-        if (attachments.length + files.length > MAX_FILES) {
+        const files = Array.from(e.target.files)
+
+        const availableSlots = MAX_FILES - attachments.length
+
+        if (availableSlots <= 0) {
             setLoading(false)
             setError(`Можно прикрепить не более ${MAX_FILES} файлов`)
             return
         }
 
-        for (let file of files) {
+        const filesToProcess = files.slice(0, availableSlots)
+        const newFiles = []
+
+        for (let file of filesToProcess) {
             if (file.type === 'image/heic' || file.type === 'image/heif') {
                 try {
                     file = await convertHeicToJpg(file, 0.8)
-                } catch (e) {
+                } catch {
                     setLoading(false)
                     setError(`Не удалось обработать файл ${file.name}`)
                     return
@@ -126,9 +131,14 @@ function PageAddpost() {
             newFiles.push(file)
         }
 
+        if (files.length > availableSlots) {
+            setError(`Можно прикрепить не более ${MAX_FILES} файлов`)
+        }
+
         setAttachments(prev => [...prev, ...newFiles])
-        setError(null)
         setLoading(false)
+
+        e.target.value = null
     }
 
     const uploadFiles = async () => {
@@ -138,7 +148,7 @@ function PageAddpost() {
         const accessToken = localStorage.getItem('accessToken')
         if (!accessToken) throw new Error('Необходима авторизация')
 
-        const res = await fetch('https://mini.aquarium.org.ru/api/post/upload', {
+        const res = await apiFetch('/api/post/upload', {
             method: 'POST',
             body: formData,
             headers: {
@@ -179,10 +189,10 @@ function PageAddpost() {
                 status,
             }
 
-            const csrfRes = await fetch('https://mini.aquarium.org.ru/api/auth/csrf', { method: 'POST', credentials: 'include' })
+            const csrfRes = await apiFetch('/api/auth/csrf', { method: 'POST', credentials: 'include' })
             const csrf = await csrfRes.json()
 
-            const res = await fetch('https://mini.aquarium.org.ru/api/post', {
+            const res = await apiFetch('/api/post', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -240,7 +250,7 @@ function PageAddpost() {
     }, [editor, isDisabled]);
 
     return (
-        <AppProfile title="Создать запись" desc="Добавьте запись в социальную сеть Аквариум мини">
+        <AppProfile title="Создать запись" desc="Добавьте запись в социальную сеть Аквариум">
             <Typography level="h4" py={2}>Создать запись</Typography>
             {error && <Typography color="danger" sx={{ mb: 2 }}>{error}</Typography>}
 

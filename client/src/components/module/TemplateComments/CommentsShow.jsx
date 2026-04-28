@@ -9,6 +9,7 @@ import {
     Divider,
     IconButton,
 } from '@mui/joy';
+import VerifiedBadge from '../../ui/VerifiedBadge';
 import {
     // Heart,
     DotsThreeVertical,
@@ -22,6 +23,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import FormatDateDistanceToNow from '../FormatDateDistanceToNow/FormatDateDistanceToNow';
 import ModalConfirmDelete from '../ModalConfirmDelete/ModalConfirmDelete';
 import { useEffect, useRef, useState } from 'react';
+import { apiFetch } from '../../../utils/apiClient';
 
 // function CommentLike({ likes = 0, liked = false }) {
 //     return (
@@ -86,7 +88,7 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
             const accessToken = localStorage.getItem('accessToken')
             if (!accessToken) throw new Error('Требуется авторизация')
 
-            const res = await fetch(`https://mini.aquarium.org.ru/api/post/comments`, {
+            const res = await apiFetch(`/api/post/comments`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {
@@ -117,7 +119,7 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
             const accessToken = localStorage.getItem('accessToken')
             if (!accessToken) throw new Error('Требуется авторизация')
 
-            const res = await fetch(`https://mini.aquarium.org.ru/api/post/comments?id=${comment.id}`, {
+            const res = await apiFetch(`/api/post/comments?id=${comment.id}`, {
                 method: 'DELETE',
                 credentials: 'include',
                 headers: {
@@ -142,17 +144,29 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
     }, [comment.content]);
 
     return (
-        <Box sx={{ display: "flex", gap: 1.5, mb: 3 }}>
+        <Box sx={{ display: "flex", alignItems: 'start', gap: 1.5, mb: 3 }}>
             <Box component="a" href={`/show/id/${comment?.user?.id}`}>
-                <Avatar src={comment.user?.avatar} size="md" sx={{ mt: 0.25 }} />
+                <Avatar src={comment.user?.avatar?.includes('http') ? comment.user?.avatar : `${process.env.REACT_APP_API_URL}${comment.user?.avatar}`} size="md" sx={{ mt: 0.25 }} />
             </Box>
 
             <Box sx={{ flex: 1 }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 1 }}>
-                    <Box component="a" href={`/show/id/${comment?.user?.id}`} sx={{ textDecoration: "none" }}>
-                        <Typography level="body-sm" fontWeight={500}>
-                            {comment.user?.firstName} {comment.user?.lastName}
-                        </Typography>
+                    <Box
+                        component="a"
+                        href={`/show/id/${comment?.user?.id}`}
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'start',
+                            alignItems: 'start',
+                            textDecoration: "none !important"
+                        }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                            <Typography level="body-sm" fontWeight={500} noWrap sx={{ minWidth: 0 }}>
+                                {comment.user?.firstName} {comment.user?.lastName}
+                            </Typography>
+                            {!!comment.user?.verified && <VerifiedBadge size={13} />}
+                        </Box>
                         <Typography level="body-xs" color="neutral">
                             <FormatDateDistanceToNow dateString={comment.created_at} />
                         </Typography>
@@ -160,26 +174,28 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
 
                     {!isEditing && (
                         <Dropdown>
-                            <MenuButton
-                                slots={{ root: Box }}
-                                slotProps={{
-                                    root: {
-                                        sx: {
-                                            width: 32,
-                                            height: 32,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            borderRadius: "50%",
-                                            cursor: "pointer",
-                                            color: "neutral.500",
-                                            "&:hover": { backgroundColor: "neutral.softHoverBg" },
+                            {comment.myComment && (
+                                <MenuButton
+                                    slots={{ root: Box }}
+                                    slotProps={{
+                                        root: {
+                                            sx: {
+                                                width: 32,
+                                                height: 32,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                borderRadius: "50%",
+                                                cursor: "pointer",
+                                                color: "neutral.500",
+                                                "&:hover": { backgroundColor: "neutral.softHoverBg" },
+                                            },
                                         },
-                                    },
-                                }}
-                            >
-                                <DotsThreeVertical size={18} />
-                            </MenuButton>
+                                    }}
+                                >
+                                    <DotsThreeVertical size={18} />
+                                </MenuButton>
+                            )}
                             <Menu placement="bottom-end" variant="plain" sx={{ borderRadius: 12 }}>
                                 {comment.myComment && (
                                     <>
@@ -192,11 +208,11 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
                                         </MenuItem>
                                     </>
                                 )}
-                                {!comment.myComment && (
+                                {/* {!comment.myComment && (
                                     <MenuItem sx={{ py: "6px", px: "10px" }} color="danger">
                                         <Flag size={18} /> Пожаловаться
                                     </MenuItem>
-                                )}
+                                )} */}
                             </Menu>
                         </Dropdown>
                     )}
@@ -222,8 +238,12 @@ function CommentItem({ comment, onDelete = () => { }, onEdit = () => { } }) {
                         mt: 0.75,
                         whiteSpace: "pre-wrap",
                         wordBreak: "break-word",
-                        outline: isEditing ? "2px solid #8884ff" : "none",
-                        borderRadius: "4px",
+                        overflowWrap: "anywhere",
+                        display: "block",
+                        width: "100%",
+                        maxWidth: "100%",
+                        border: isEditing ? "2px solid #8884ff" : "none",
+                        borderRadius: "6px",
                         px: isEditing ? 0.5 : 0
                     }}
                     onInput={(e) => setEditContent(e.currentTarget.textContent)}

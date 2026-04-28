@@ -26,25 +26,22 @@ function BarGuest() {
     return (
         <Box>
             <Typography level="title-md" mb={2}>
-                Мы тебя ждали
-            </Typography>
-            <Typography level="body-sm" mb={2}>
-                Мессенджер, который мы придумали для тебя:
+                Мессенджер <nobr>со звонками</nobr> <nobr>и групповыми</nobr> чатами
             </Typography>
             <Typography level="body-sm" mb={1.5} startDecorator={<Key size={16} />}>
                 Вход в 1 клик
             </Typography>
             <Typography level="body-sm" mb={1.5} startDecorator={<ChatCircleText size={16} />}>
-                Общение без чужих глаз
+                Защита любых переписок
             </Typography>
             <Typography level="body-sm" mb={1.5} startDecorator={<PencilSimpleLine size={16} />}>
-                Делись важным для тебя
+                Публикации пользователей
             </Typography>
             <Typography level="body-sm" mb={1.5} startDecorator={<ShieldCheck size={16} />}>
-                Личное остается личным
+                Акцент на безопасности
             </Typography>
             <Typography level="body-sm" mb={1.5} startDecorator={<UsersThree size={16} />}>
-                Тут комфортно для тебя
+                Общество близких людей
             </Typography>
             <Button
                 onClick={() => navigate('/auth')}
@@ -73,7 +70,7 @@ function BarLogined() {
                 variant="plain"
                 sx={{
                     p: 1.5,
-                    borderRadius: '12px',
+                    borderRadius: '24px',
                     position: 'relative',
                     overflow: 'visible',
                     '&:has(.decor-button:hover) .decor': {
@@ -104,6 +101,7 @@ function BarLogined() {
                             fontSize: '12px',
                             px: 1.5,
                             py: 0,
+                            textDecoration: 'none !important'
                         }}
                         component="a"
                         href="https://t.me/aquariumsocial"
@@ -130,7 +128,7 @@ function BarLogined() {
                 variant="plain"
                 sx={{
                     p: 1.5,
-                    borderRadius: '12px',
+                    borderRadius: '24px',
                     position: 'relative',
                     overflow: 'visible',
                     '&:has(.decor-button:hover) .decor': {
@@ -161,6 +159,7 @@ function BarLogined() {
                             fontSize: '12px',
                             px: 1.5,
                             py: 0,
+                            textDecoration: 'none !important'
                         }}
                         component="a"
                         href="https://t.me/addstickers/aquariumsocial"
@@ -199,7 +198,7 @@ function DesktopRightBar() {
             className={`app-desktop app-desktop__right app-desktop__right-${isAuth ? 'auth' : 'guest'}`}
             sx={{
                 width: 300,
-                height: '100vh',
+                height: '100dvh',
                 position: 'relative',
                 px: 2,
                 py: 4,

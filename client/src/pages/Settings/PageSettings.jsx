@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLogout } from '../../hooks/auth/useLogout'
 import { AppProfile } from '../../components/app/App'
 import { List, ListItemButton, ListItemDecorator, Typography, Sheet, Avatar } from '@mui/joy'
-import { User, Devices, LockKey, Bell, Image, Globe, SignOut, CaretRight, Palette, Question, ChatCircleDots } from '@phosphor-icons/react'
+import { User, Devices, Image, SignOut, CaretRight, Palette, Question, ChatCircleDots } from '@phosphor-icons/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from '@mui/joy/styles';
 import { useState } from 'react'
@@ -36,7 +36,17 @@ function SettingsList({ onSelect }) {
 
     return (
         <>
-            <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+            {/* <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
+                <List>
+                    <SettingsItem
+                        icon={<UserPlusIcon size={20} />}
+                        bgColor={theme.colors.settings.language}
+                        label="Добавить аккаунт"
+                        onClick={() => onSelect('/settings/profile')}
+                    />
+                </List>
+            </Sheet> */}
+            <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                 <List>
                     <SettingsItem
                         icon={<User size={20} />}
@@ -65,7 +75,7 @@ function SettingsList({ onSelect }) {
                     /> */}
                 </List>
             </Sheet>
-            <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+            <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                 <List>
                     <SettingsItem
                         icon={<Image size={20} />}
@@ -81,8 +91,14 @@ function SettingsList({ onSelect }) {
                     />
                 </List>
             </Sheet>
-            <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+            <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                 <List>
+                    {/* <SettingsItem
+                        icon={<DeviceMobileIcon size={20} />}
+                        bgColor={theme.colors.settings.notifications}
+                        label="Приложения"
+                        onClick={() => onSelect('/settings/apps')}
+                    /> */}
                     <SettingsItem
                         icon={<Question size={20} />}
                         bgColor={theme.colors.settings.profile}
@@ -97,7 +113,7 @@ function SettingsList({ onSelect }) {
                     />
                 </List>
             </Sheet>
-            <Sheet variant="plain" sx={{ borderRadius: '12px', py: 1, my: 2 }}>
+            <Sheet variant="plain" sx={{ borderRadius: '24px', py: 1, my: 2 }}>
                 <List>
                     <SettingsItem
                         icon={<SignOut size={20} />}
@@ -123,7 +139,7 @@ function PageSettings() {
     const navigate = useNavigate()
 
     return (
-        <AppProfile title="Настройки" desc="Настройте свой профиль и интерфейс социальной сети Аквариум мини">
+        <AppProfile title="Настройки" desc="Настройте свой профиль и интерфейс социальной сети Аквариум">
             <Typography level="h4" sx={{ mt: 2 }}>
                 Настройки
             </Typography>

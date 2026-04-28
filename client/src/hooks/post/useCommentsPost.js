@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiFetch } from '../../utils/apiClient';
 
 export function useCommentsPost(idPost) {
     const [comments, setComments] = useState([]);
@@ -15,12 +16,12 @@ export function useCommentsPost(idPost) {
                 setLoading(true);
                 setError(null);
 
-                const url = new URL('https://mini.aquarium.org.ru/api/post/comments', window.location.origin);
+                const url = new URL('/api/post/comments', process.env.REACT_APP_API_URL);
                 url.searchParams.set('id', idPost);
 
                 const accessToken = localStorage.getItem('accessToken');
 
-                const response = await fetch(url.toString(), {
+                const response = await apiFetch(url.toString(), {
                     method: 'GET',
                     credentials: 'include',
                     signal: controller.signal,

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../utils/apiClient';
 
 export function useProfile() {
     const navigate = useNavigate();
@@ -13,17 +14,7 @@ export function useProfile() {
 
         const fetchProfile = async () => {
             try {
-                const accessToken = localStorage.getItem('accessToken');
-                if (!accessToken) {
-                    throw new Error('Требуется авторизация');
-                }
-
-                const response = await fetch('https://mini.aquarium.org.ru/api/profile', {
-                    credentials: 'include',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                    }
-                });
+                const response = await apiFetch('/api/profile');
 
                 const data = await response.json();
 

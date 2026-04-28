@@ -4,31 +4,26 @@ function PostsSkeleton({ count = 3 }) {
     return (
         <Stack spacing={2} mt={2} useFlexGap>
             {Array.from({ length: count }).map((_, index) => (
-                <Card key={index} variant="outlined" sx={{ border: 'none', borderRadius: '12px' }}>
+                <Card key={index} variant="outlined" sx={{ border: 'none', borderRadius: '24px' }}>
                     <CardContent orientation="horizontal">
                         <Skeleton animation="wave" variant="circular" width={48} height={48} />
                         <div>
-                            <Skeleton animation="wave" variant="text" sx={{ width: 120 }} />
+                            <Skeleton animation="wave" variant="text" sx={{ width: 120, borderRadius: '999px' }} />
                             <Skeleton
                                 animation="wave"
                                 variant="text"
                                 level="body-sm"
-                                sx={{ width: 200 }}
+                                sx={{ width: 200, borderRadius: '999px' }}
                             />
                         </div>
                     </CardContent>
-                    <AspectRatio ratio="32/9">
+                    <AspectRatio ratio="32/9" sx={{ borderRadius: '24px' }}>
                         <Skeleton animation="wave" variant="overlay">
-                            <img
-                                alt=""
-                                src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                            />
                         </Skeleton>
                     </AspectRatio>
-                    <Typography sx={{ overflow: 'hidden' }}>
-                        <Skeleton animation="wave">
-                            Lorem ipsum is placeholder text commonly used in the graphic, print, and
-                            publishing industries.
+                    <Typography sx={{ overflow: 'hidden' }} >
+                        <Skeleton animation="wave" sx={{ borderRadius: '999px' }}>
+                            Lorem ipsum is placeholder
                         </Skeleton>
                     </Typography>
                 </Card>

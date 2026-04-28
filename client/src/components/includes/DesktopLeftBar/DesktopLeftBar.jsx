@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Sheet, List, ListItem, ListItemButton, ListItemDecorator } from '@mui/joy';
+import { Sheet, List, ListItem, ListItemButton, ListItemDecorator, Badge, Box } from '@mui/joy';
 import { House, PencilLine, User, Bell, MagnifyingGlass, GearSix, ChatCircle } from '@phosphor-icons/react';
 import Logo from '../../module/Logo/Logo';
 import { useAuth } from '../../../hooks/auth/useAuth';
+import { useCountNotifications } from '../../app/NotificationProvider';
+import { useUnreadMessages } from '../../app/UnreadMessagesProvider';
 
-function ButtonBar({ label, path, Icon, isActive }) {
-    const navigate = useNavigate();
+function ButtonBar({ label, path, Icon, notification = false, isActive, unreadMessages = false }) {
+    const countNotifications = useCountNotifications();
+    const unreadCount = useUnreadMessages();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const handleNavigate = (path) => {
         if (location.pathname === path) {
@@ -61,7 +65,31 @@ function ButtonBar({ label, path, Icon, isActive }) {
                         color: 'currentColor',
                     }}
                 >
-                    <Icon size={20} weight={isActive ? 'fill' : 'regular'} />
+                    {notification && countNotifications > 0 ? (
+                        <Badge
+                            badgeContent={countNotifications}
+                            color="danger"
+                            variant="solid"
+                            size="sm"
+                        >
+                            <Icon size={20} weight={isActive ? 'fill' : 'regular'} />
+                        </Badge>
+                    ) : unreadMessages && unreadCount > 0 && !location.pathname.startsWith('/messages') && !location.pathname.startsWith('/chat') ? (
+                        <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+                            <Icon size={20} weight={isActive ? 'fill' : 'regular'} />
+                            <Box sx={{
+                                position: 'absolute',
+                                top: -2,
+                                right: -4,
+                                width: 8,
+                                height: 8,
+                                borderRadius: '50%',
+                                backgroundColor: 'danger.500',
+                            }} />
+                        </Box>
+                    ) : (
+                        <Icon size={20} weight={isActive ? 'fill' : 'regular'} />
+                    )}
                 </ListItemDecorator>
                 {label}
             </ListItemButton>
@@ -77,10 +105,10 @@ function DesktopLeftBar() {
     const menuItems = [
         { Icon: House, label: 'Главная', path: '/feed' },
         { Icon: User, label: 'Профиль', path: '/profile' },
-        { Icon: ChatCircle, label: 'Сообщения', path: '/messages' },
+        { Icon: ChatCircle, label: 'Сообщения', path: '/messages', unreadMessages: true },
         { Icon: PencilLine, label: 'Создать запись', path: '/post/create' },
         { Icon: MagnifyingGlass, label: 'Поиск', path: '/search' },
-        // { Icon: Bell, label: 'Уведомления', path: '/notifications' },
+        { Icon: Bell, label: 'Уведомления', path: '/notifications', notification: true },
         { Icon: GearSix, label: 'Настройки', path: '/settings' },
     ];
 
@@ -97,7 +125,7 @@ function DesktopLeftBar() {
             className="app-desktop app-desktop__left"
             sx={{
                 width: 250,
-                height: '100vh',
+                height: '100dvh',
                 position: 'relative',
                 px: 2,
                 py: 4,
@@ -109,8 +137,8 @@ function DesktopLeftBar() {
             }}
         >
             <div>
-                <div style={{ paddingLeft: '16px', marginBottom: '2rem' }}>
-                    <Logo noRandom={false} />
+                <div style={{ paddingLeft: '16px', marginBottom: '1rem' }}>
+                    <Logo />
                 </div>
 
                 <div
@@ -127,7 +155,7 @@ function DesktopLeftBar() {
                     >
                         {menu.map((item, index) => {
                             const isActive = location.pathname.startsWith(item.path);
-                            return <ButtonBar {...item} isActive={isActive} key={index} />
+                            return <ButtonBar {...item} isActive={isActive} key={index} unreadMessages={item.unreadMessages ?? false} />
                         })}
                     </List>
                 </div>

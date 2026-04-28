@@ -66,8 +66,10 @@ function LayoutSettings({ header = "Настройки", backUrl = "/settings", 
                             borderRadius: '50px',
                         }}
                     >
-                        <CaretLeft size={18} />
-                        <Typography level="body-md">Назад</Typography>
+                        <Typography
+                            level="body-md"
+                            startDecorator={<CaretLeft size={18} weight='bold' />}
+                        >Назад</Typography>
                     </IconButton>
                     <Typography level="h4" sx={{
                         position: 'absolute',

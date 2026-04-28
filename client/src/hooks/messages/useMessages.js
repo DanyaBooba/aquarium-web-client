@@ -10,14 +10,18 @@ export function useMessages(userId) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        if (!userId) {
+            setLoading(false);
+            return;
+        }
+
         const fetchMessages = async () => {
             try {
-                const response = await apiFetch(`https://mini.aquarium.org.ru/api/messages/${userId}`, {
+                const response = await apiFetch(`/api/messages/${userId}`, {
                     method: 'GET'
                 });
 
                 const data = await response.json();
-                console.log(data);
 
                 if (!response.ok) {
                     throw new Error('Ошибка при получении сообщений');

@@ -4,8 +4,9 @@ import { Heart, ChatCircle, Eye, Calendar, PencilSimple, Info, Hash, Globe, Book
 import { AppProfile } from '../../components/app/App';
 import FormatDateFull from '../../components/module/FormatDateFull/FormatDateFull';
 import { useParams, useNavigate } from 'react-router-dom';
-import IconCalendar from './IconCalendar'
+// import IconCalendar from './IconCalendar'
 import ServerError from '../../components/module/ServerError/ServerError';
+import { apiFetch } from '../../utils/apiClient';
 
 const commonButtonSx = {
     display: 'flex',
@@ -64,7 +65,7 @@ function MainActivity({ likes = 0, comments = 0, views = 0 }) {
     return (
         <>
             <Typography level="title-lg" mb={1}>Общая активность</Typography>
-            <Card variant="plain" sx={{ mb: 3 }}>
+            <Card variant="plain" sx={{ mb: 3, borderRadius: '24px' }}>
                 <CardContent>
                     <StatItem icon={Heart} label="Лайков" value={likes} />
                     <StatItem icon={ChatCircle} label="Комментариев" value={comments} />
@@ -114,7 +115,7 @@ function StatusAndTheme({ status = 0, theme = null }) {
     return (
         <>
             <Typography level="title-lg" mb={1}>Статус и тема</Typography>
-            <Card variant="plain" sx={{ mb: 3 }}>
+            <Card variant="plain" sx={{ mb: 3, borderRadius: '24px' }}>
                 <CardContent>
                     <StatItem icon={BookmarkSimple} label="Статус" value={convertStatus(status)} valueColor={colorStatus(status)} />
                     <StatItem icon={Hash} label="Тематика" value={convertTheme(theme)} mb={0} />
@@ -128,7 +129,7 @@ function Timestamp({ timeCreate, timeEdit = null }) {
     return (
         <>
             <Typography level="title-lg" mb={1}>Временные метки</Typography>
-            <Card variant="plain" sx={{ mb: 3 }}>
+            <Card variant="plain" sx={{ mb: 3, borderRadius: '24px' }}>
                 <CardContent>
                     <StatItem iconBlock={<Calendar size={18} />} label="Создано" value={<FormatDateFull dateString={timeCreate ?? null} />} />
                     <StatItem icon={PencilSimple} label="Изменено" value={
@@ -154,19 +155,19 @@ function TechInfo({ postLink, localId = 0, globalId = 0 }) {
     return (
         <>
             <Typography level="title-lg" mb={1}>Техническое</Typography>
-            <Card variant="plain" sx={{ mb: 2 }}>
+            <Card variant="plain" sx={{ mb: 2, borderRadius: '24px' }}>
                 <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
                         <Typography level="body-sm" fontWeight="lg" sx={{ wordBreak: 'break-all' }}>
                             {`${window.location.origin}${postLink}`}
                         </Typography>
-                        <IconButton size="sm" variant="plain" onClick={handleCopy}>
+                        <IconButton size="sm" variant="plain" sx={{ borderRadius: '999px' }} onClick={handleCopy}>
                             {copied ? <Check size={16} /> : <Copy size={16} />}
                         </IconButton>
                     </Box>
                 </CardContent>
             </Card>
-            <Card variant="plain" sx={{ mb: 3 }}>
+            <Card variant="plain" sx={{ mb: 3, borderRadius: '24px' }}>
                 <CardContent>
                     <StatItem icon={Info} label="Локальный ID" value={localId} />
                     <StatItem icon={Globe} label="Глобальный ID" value={globalId} mb={0} />
@@ -234,7 +235,7 @@ export default function PagePostStatsMock() {
             try {
                 const accessToken = localStorage.getItem('accessToken')
 
-                const res = await fetch(`https://mini.aquarium.org.ru/api/post?id=${globalPostId}`, {
+                const res = await apiFetch(`/api/post?id=${globalPostId}`, {
                     credentials: 'include',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,

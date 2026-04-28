@@ -1,5 +1,6 @@
-import { TabList, Tabs } from '@mui/joy'
-import Tab, { tabClasses } from '@mui/joy/Tab'
+import { Tabs, TabList, Tab, Box } from '@mui/joy'
+import { motion } from 'framer-motion'
+import { tabClasses } from '@mui/joy/Tab';
 
 function ProfileTabs({ tab, setTab }) {
     const handleChange = (event, newValue) => {
@@ -7,41 +8,89 @@ function ProfileTabs({ tab, setTab }) {
         localStorage.setItem('profileTabs', newValue)
     }
 
+    const tabs = [
+        { value: 'posts', label: 'Записи' },
+        { value: 'likes', label: 'Лайкнутое' },
+        { value: 'bookmarks', label: 'Избранное' },
+    ]
+
     return (
         <Tabs
-            aria-label="tabs"
-            size="sm"
+            aria-label="profile tabs"
             value={tab}
-            defaultValue={0}
             onChange={handleChange}
-            sx={{ bgcolor: 'transparent', mt: 2 }}>
+            size="sm"
+            sx={{
+                bgcolor: 'transparent',
+                mt: 2,
+                position: 'sticky',
+                top: '8px',
+                zIndex: '1000',
+
+            }}
+        >
             <TabList
                 disableUnderline
                 sx={(theme) => ({
+                    position: 'relative',
                     p: 0.5,
                     gap: 0.5,
                     borderRadius: '50px',
                     bgcolor: 'background.level1',
+                    display: 'flex',
                     [`& .${tabClasses.root}[aria-selected="true"]`]: {
-                        bgcolor:
-                            theme.palette.mode === 'dark'
-                                ? 'primary.700'
-                                : 'background.surface',
-                        color:
-                            theme.palette.mode === 'dark'
-                                ? 'primary.100'
-                                : 'text.primary',
-                        borderRadius: '50px',
-                    },
-                    [`& .${tabClasses.root}`]: {
-                        flex: 1,
-                        color: 'text.primary'
+                        boxShadow: 'sm',
+                        bgcolor: 'background.surface',
                     },
                 })}
             >
-                <Tab value="posts" disableIndicator>Записи</Tab>
-                <Tab value="likes" disableIndicator>Лайкнутое</Tab>
-                <Tab value="bookmarks" disableIndicator>Избранное</Tab>
+                {tabs.map(({ value, label }) => {
+                    const isActive = tab === value
+
+                    return (
+                        <Tab
+                            key={value}
+                            value={value}
+                            disableIndicator
+                            sx={{
+                                position: 'relative',
+                                flex: 1,
+                                zIndex: 1,
+                                borderRadius: '50px',
+
+                                backgroundColor: 'transparent',
+                                '&:hover': { backgroundColor: 'var(--Tab-hoverBg)' },
+                                '&:active': { backgroundColor: 'var(--Tab-activeBg)' },
+                                '&.Mui-selected': { backgroundColor: 'transparent' },
+                                border: 'none !important',
+                            }}
+                        >
+                            {isActive && (
+                                <Box
+                                    component={motion.div}
+                                    layoutId="profile-tab-bg"
+                                    transition={{
+                                        type: 'spring',
+                                        stiffness: 350,
+                                        damping: 30,
+                                    }}
+                                    sx={(theme) => ({
+                                        position: 'absolute',
+                                        inset: 0,
+                                        borderRadius: '50px',
+                                        zIndex: -1,
+                                        backgroundColor:
+                                            theme.palette.mode === 'dark'
+                                                ? theme.vars.palette.primary[800]
+                                                : theme.vars.palette.background.surface,
+                                    })}
+                                />
+                            )}
+
+                            {label}
+                        </Tab>
+                    )
+                })}
             </TabList>
         </Tabs>
     )

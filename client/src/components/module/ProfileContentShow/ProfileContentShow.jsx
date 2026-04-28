@@ -50,8 +50,8 @@ function ProfileContentShow({ user, side = false }) {
         <>
             {user?.itsme && side && (
                 <Button
-                    onClick={() => navigate('/profile')}
-                    startDecorator={<CaretLeft size={18} />}
+                    onClick={() => navigate(-1)}
+                    startDecorator={<CaretLeft size={18} weight='bold' />}
                     size="sm"
                     variant="plain"
                     sx={{
@@ -68,7 +68,10 @@ function ProfileContentShow({ user, side = false }) {
                 cap={user?.cap ?? null}
                 firstName={user?.firstName ?? null}
                 lastName={user?.lastName ?? null}
+                verified={user?.verified}
                 description={user?.description ?? null}
+                userId={user?.itsme ? null : (user?.id ?? null)}
+                username={user?.username ?? null}
             />
 
             <ProfileButtons

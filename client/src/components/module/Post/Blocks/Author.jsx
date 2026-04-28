@@ -1,11 +1,13 @@
 import { Avatar, Typography, Box } from '@mui/joy'
 import FormatDateDistanceToNow from '../../FormatDateDistanceToNow/FormatDateDistanceToNow'
 import { useNavigate } from 'react-router-dom';
+import VerifiedBadge from '../../../ui/VerifiedBadge';
 
 function Author({
     avatar,
     firstName,
     lastName,
+    verified = false,
     username = null,
     idUser = 0,
     date = null,
@@ -34,8 +36,9 @@ function Author({
             sx={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                borderRadius: '8px',
+                borderRadius: '999px',
                 px: 1,
+                pr: 2,
                 py: 0.5,
                 '&:hover': {
                     backgroundColor: 'neutral.softHoverBg',
@@ -49,27 +52,18 @@ function Author({
                 maxWidth: `${maxWidth}%`,
             }}
         >
-            <Avatar src={`https://mini.aquarium.org.ru/${avatar}` ?? null} />
-            <Box
-                sx={{
-                    ml: 1,
-                    minWidth: 0,
-                    overflow: 'hidden',
-                }}
-            >
-                <Typography
-                    level="body-md"
-                    noWrap
-                    sx={{
-                        display: 'block',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                    }}
-                >
-                    {firstName ?? null}
-                    {' '}
-                    {lastName ?? null}
-                </Typography>
+            <Avatar src={avatar?.includes('http') ? avatar : `${process.env.REACT_APP_API_URL}${avatar}` ?? null} />
+            <Box sx={{ ml: 1, minWidth: 0, overflow: 'hidden' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', minWidth: 0 }}>
+                    <Typography
+                        level="body-md"
+                        noWrap
+                        sx={{ minWidth: 0, fontWeight: 600 }}
+                    >
+                        {firstName ?? null}{' '}{lastName ?? null}
+                    </Typography>
+                    {Boolean(verified) && <VerifiedBadge size={15} />}
+                </Box>
                 <Typography
                     level="body-xs"
                     textColor="text.tertiary"

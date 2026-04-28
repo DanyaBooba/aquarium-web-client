@@ -1,14 +1,52 @@
 import { useState, useMemo } from 'react';
 import { AppProfile } from '../../components/app/App'
-import { Typography, Stack, Box, Dropdown, MenuButton, Menu, MenuItem } from '@mui/joy';
-import { CaretDown } from '@phosphor-icons/react';
+import { Typography, Stack, Box, Dropdown, MenuButton, Menu, MenuItem, IconButton } from '@mui/joy';
+import { CaretDown, PlusIcon } from '@phosphor-icons/react';
 import Post from '../../components/module/Post/Post';
 import { usePosts } from '../../hooks/post/usePosts';
 import { useScrollRestoration } from '../../hooks/service/useScrollRestoration';
 import { useAuth } from '../../hooks/auth/useAuth';
+import { useMediaQuery } from '@mui/material';
 
 import PostsSkeleton from '../../components/module/PostsSkeleton/PostsSkeleton';
 import ServerError, { NotFound } from '../../components/module/ServerError/ServerError';
+import { useNavigate } from 'react-router-dom';
+
+function FeedShowButtonAdd() {
+    const navigate = useNavigate();
+    const { isAuth } = useAuth();
+
+    const isMobile = useMediaQuery('(max-width: 1100px)');
+
+    if (!isAuth || !isMobile) return null;
+
+    return (
+        <IconButton
+            variant="plain"
+            sx={(theme) => ({
+                position: 'fixed !important',
+                bottom: '74px',
+                right: '18px',
+                flexDirection: 'column',
+                color: theme.colors.logoText,
+                backgroundColor: theme.colors.logo,
+                borderRadius: '50px',
+                width: 45,
+                height: 45,
+                flex: 1,
+                zIndex: '1000',
+                display: 'flex',
+            })}
+            onClick={() => navigate('/post/create')}
+        >
+            <PlusIcon
+                size={20}
+                weight='regular'
+                style={{ zIndex: 1 }}
+            />
+        </IconButton>
+    )
+}
 
 function FeedTitle({ showFeedLabel, feedLabel, selectFeed }) {
     const { isAuth } = useAuth();
@@ -118,7 +156,7 @@ function PageFeed() {
     return (
         <AppProfile
             title="Публикации пользователей"
-            desc="Посмотрите на последние публикации пользователей в социальной сети Аквариум мини"
+            desc="Посмотрите на последние публикации пользователей в социальной сети Аквариум"
         >
             <Box
                 my={2}
@@ -174,6 +212,8 @@ function PageFeed() {
             ) : (
                 <NotFound />
             )}
+
+            {/* <FeedShowButtonAdd /> */}
         </AppProfile>
     );
 }

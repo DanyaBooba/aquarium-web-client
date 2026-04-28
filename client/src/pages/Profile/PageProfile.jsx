@@ -9,7 +9,7 @@ function PageProfile({ me = false }) {
     const { user, loading, error } = useProfile();
 
     return (
-        <AppProfile title="Ваш профиль" desc="Посмотрите ваш профиль в социальной сети Аквариум мини">
+        <AppProfile title="Ваш профиль" desc="Посмотрите ваш профиль в социальной сети Аквариум">
             {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
                     <CircularProgress />

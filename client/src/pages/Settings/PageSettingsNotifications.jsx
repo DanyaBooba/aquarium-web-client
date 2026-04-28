@@ -29,9 +29,17 @@ function PageSettingsNotifications() {
     const [emailNotif, setEmailNotif] = useState(true);
     const [smsNotif, setSmsNotif] = useState(false);
 
-    const listSite = [
+    const listEmail = [
         { title: 'Авторизация в аккаунт', checked: emailNotif, onChange: setEmailNotif },
         { title: 'Изменение личных данных', checked: smsNotif, onChange: setSmsNotif },
+    ];
+
+    const [emailNotif3, setEmailNotif3] = useState(true);
+    const [smsNotif3, setSmsNotif3] = useState(false);
+
+    const listWeb = [
+        { title: 'Авторизация в аккаунт', checked: emailNotif3, onChange: setEmailNotif3 },
+        { title: 'Изменение личных данных', checked: smsNotif3, onChange: setSmsNotif3 },
     ];
 
     const [emailNotif2, setEmailNotif2] = useState(true);
@@ -46,8 +54,12 @@ function PageSettingsNotifications() {
         <AppProfile title="Настройки уведомлений" desc="Настройки уведомлений в социальной сети Аквариум">
             <LayoutSettings header="Уведомления">
                 <ShowBlock
-                    title="По почте"
-                    list={listSite}
+                    title="Почта"
+                    list={listEmail}
+                />
+                <ShowBlock
+                    title="Веб-клиент"
+                    list={listWeb}
                 />
                 <ShowBlock
                     title="Мобильное приложение"

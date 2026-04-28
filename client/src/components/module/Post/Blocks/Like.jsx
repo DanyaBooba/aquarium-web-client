@@ -15,7 +15,7 @@ function Like({ likes = 0, liked = false, idUser = 0, idPost = 0 }) {
         if (!isAuth) window.location.href = '/auth';
 
         try {
-            const url = new URL('https://mini.aquarium.org.ru/api/post/like', window.location.origin);
+            const url = new URL('/api/post/like', process.env.REACT_APP_API_URL);
             url.searchParams.append('idUser', idUser);
             url.searchParams.append('idPost', idPost);
 

@@ -47,6 +47,7 @@ function TemplatePost({ post, user, handleClose = null, menu = true }) {
                     avatar={user?.avatar}
                     firstName={user?.firstName}
                     lastName={user?.lastName}
+                    verified={user?.verified}
                     username={user?.username}
                     idUser={user?.id}
                     date={post?.created_at}
@@ -78,10 +79,10 @@ function TemplatePost({ post, user, handleClose = null, menu = true }) {
             <Status status={post?.status} />
 
             {/* Content */}
-            <Content content={post.content} />
+            <Content content={post.content} showFull={true} />
 
             {/* Attachments */}
-            <Attachments attachments={post?.attachments ?? []} />
+            <Attachments attachments={post?.attachments ?? []} postId={post?.id} />
 
             {/* Actions */}
             <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">

@@ -1,5 +1,7 @@
-import { TabList, Tabs } from '@mui/joy'
-import Tab, { tabClasses } from '@mui/joy/Tab'
+import { TabList, Tabs, Tab } from '@mui/joy'
+import { Box } from '@mui/joy'
+import { motion } from 'framer-motion'
+import { tabClasses } from '@mui/joy/Tab';
 
 function SearchTabs({ tab, onTabChange }) {
     const handleChange = (event, newValue) => {
@@ -9,38 +11,83 @@ function SearchTabs({ tab, onTabChange }) {
 
     return (
         <Tabs
-            aria-label="tabs"
-            size="sm"
             value={tab}
-            defaultValue={0}
             onChange={handleChange}
-            sx={{ bgcolor: 'transparent' }}>
+            size="sm"
+            sx={{ bgcolor: 'transparent' }}
+        >
             <TabList
                 disableUnderline
                 sx={(theme) => ({
+                    position: 'relative',
                     p: 0.5,
                     gap: 0.5,
                     borderRadius: '50px',
                     bgcolor: 'background.level1',
+                    display: 'flex',
                     [`& .${tabClasses.root}[aria-selected="true"]`]: {
-                        bgcolor:
-                            theme.palette.mode === 'dark'
-                                ? 'primary.700'
-                                : 'background.surface',
-                        color:
-                            theme.palette.mode === 'dark'
-                                ? 'primary.100'
-                                : 'text.primary',
-                        borderRadius: '50px',
-                    },
-                    [`& .${tabClasses.root}`]: {
-                        flex: 1,
-                        color: 'text.primary'
+                        boxShadow: 'sm',
+                        bgcolor: 'background.surface',
                     },
                 })}
             >
-                <Tab value="users" disableIndicator>Пользователи</Tab>
-                <Tab value="posts" disableIndicator>Записи</Tab>
+                {['users', 'posts'].map((value) => {
+                    const isActive = tab === value
+
+                    return (
+                        <Tab
+                            key={value}
+                            value={value}
+                            disableIndicator
+                            sx={{
+                                position: 'relative',
+                                flex: 1,
+                                zIndex: 1,
+                                borderRadius: '50px',
+
+                                backgroundColor: 'transparent',
+
+                                '&:hover': {
+                                    backgroundColor: 'var(--Tab-hoverBg)',
+                                },
+                                '&:active': {
+                                    backgroundColor: 'var(--Tab-activeBg)',
+                                },
+
+                                '&.Mui-selected': {
+                                    backgroundColor: 'transparent',
+                                },
+                                border: 'none !important'
+                            }}
+                        >
+                            {isActive && (
+                                <Box
+                                    component={motion.div}
+                                    layoutId="search-tab-bg"
+                                    transition={{
+                                        type: 'spring',
+                                        stiffness: 350,
+                                        damping: 30,
+                                    }}
+                                    sx={(theme) => ({
+                                        position: 'absolute',
+                                        inset: 0,
+                                        borderRadius: '50px',
+                                        zIndex: -1,
+                                        backgroundColor:
+                                            theme.palette.mode === 'dark'
+                                                ? theme.vars.palette.primary[800]
+                                                : theme.vars.palette.background.surface,
+                                    })}
+                                />
+                            )}
+
+                            {value === 'users'
+                                ? 'Пользователи'
+                                : 'Записи'}
+                        </Tab>
+                    )
+                })}
             </TabList>
         </Tabs>
     )

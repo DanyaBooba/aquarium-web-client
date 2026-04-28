@@ -73,17 +73,14 @@ function ShowListImages({
 }) {
     const [componentImages, setComponentImages] = useState([]);
 
-    // формируем список с кнопкой загрузки
     useEffect(() => {
         setComponentImages(['@load', ...images]);
     }, [images]);
 
-    // ВАЖНО: проверка скролла после реального рендера DOM
     useLayoutEffect(() => {
         checkScrollPosition(scrollRef, setCanScrollLeft, setCanScrollRight);
     }, [componentImages]);
 
-    // автоскролл к активному элементу
     useLayoutEffect(() => {
         const container = scrollRef.current;
         if (!container) return;
@@ -106,7 +103,6 @@ function ShowListImages({
         container.scrollBy({ left: offset, behavior: 'smooth' });
     }, [componentImages, defaultImage]);
 
-    // слушатели scroll / resize
     useEffect(() => {
         const el = scrollRef.current;
         if (!el) return;

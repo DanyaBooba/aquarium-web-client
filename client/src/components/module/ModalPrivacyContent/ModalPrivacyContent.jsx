@@ -7,9 +7,9 @@ function ModalCookie() {
         <>
             <Typography sx={{ mb: 1 }}>Последнее обновление: 4 августа 2025 г.</Typography>
             <Typography sx={{ mb: 2 }}>
-                Настоящая Политика использования cookie (далее — «Политика») регулирует порядок использования cookie-файлов пользователями сервиса «Аквариум Мини» (далее — «Сервис»), расположенного по адресу&nbsp;
-                <Link href="https://mini.aquarium.org.ru" target="_blank" rel="noopener noreferrer">
-                    https://mini.aquarium.org.ru
+                Настоящая Политика использования cookie (далее — «Политика») регулирует порядок использования cookie-файлов пользователями сервиса «Аквариум» (далее — «Сервис»), расположенного по адресу&nbsp;
+                <Link href="https://aquarium.org.ru" target="_blank" rel="noopener noreferrer">
+                    https://aquarium.org.ru
                 </Link>.
             </Typography>
 
@@ -56,9 +56,9 @@ function ModalData() {
         <>
             <Typography sx={{ mb: 1 }}>Последнее обновление: 4 августа 2025 г.</Typography>
             <Typography sx={{ mb: 2 }}>
-                Настоящее Согласие на обработку персональных данных (далее — «Согласие») регулирует порядок сбора, использования и защиты ваших персональных данных при использовании сервиса «Аквариум Мини» (далее — «Сервис»), расположенного по адресу&nbsp;
-                <Link href="https://mini.aquarium.org.ru" target="_blank" rel="noopener noreferrer">
-                    https://mini.aquarium.org.ru
+                Настоящее Согласие на обработку персональных данных (далее — «Согласие») регулирует порядок сбора, использования и защиты ваших персональных данных при использовании сервиса «Аквариум» (далее — «Сервис»), расположенного по адресу&nbsp;
+                <Link href="https://aquarium.org.ru" target="_blank" rel="noopener noreferrer">
+                    https://aquarium.org.ru
                 </Link>.
             </Typography>
 
@@ -97,8 +97,8 @@ function ModalData() {
             <Typography level="title-lg" sx={{ mb: 1 }}>5. Срок хранения данных</Typography>
             <Typography sx={{ mb: 2 }}>
                 Данные хранятся до момента удаления аккаунта пользователем. Вы можете удалить аккаунт и персональные данные по ссылке:&nbsp;
-                <Link href="https://mini.aquarium.org.ru/settings/profile/delete" target="_blank" rel="noopener noreferrer">
-                    https://mini.aquarium.org.ru/settings/profile/delete
+                <Link href="https://aquarium.org.ru/settings/profile/delete" target="_blank" rel="noopener noreferrer">
+                    https://aquarium.org.ru/settings/profile/delete
                 </Link>.
             </Typography>
 
@@ -115,9 +115,9 @@ function ModalTermsOfUse() {
         <>
             <Typography sx={{ mb: 1 }}>Последнее обновление: 4 августа 2025 г.</Typography>
             <Typography sx={{ mb: 2 }}>
-                Настоящие Условия использования (далее — «Условия») регулируют порядок использования пользователями сервиса «Аквариум Мини» (далее — «Сервис»), расположенного по адресу&nbsp;
-                <Link href="https://mini.aquarium.org.ru" target="_blank" rel="noopener noreferrer">
-                    https://mini.aquarium.org.ru
+                Настоящие Условия использования (далее — «Условия») регулируют порядок использования пользователями сервиса «Аквариум» (далее — «Сервис»), расположенного по адресу&nbsp;
+                <Link href="https://aquarium.org.ru" target="_blank" rel="noopener noreferrer">
+                    https://aquarium.org.ru
                 </Link>.
             </Typography>
 
@@ -161,12 +161,12 @@ function ModalPrivacyPolicy() {
     return (
         <>
             <Typography sx={{ mb: 1 }}>Последнее обновление: 4 августа 2025 г.</Typography>
-            <Typography sx={{ mb: 1 }}>Адрес сайта: <Link href="https://mini.aquarium.org.ru">https://mini.aquarium.org.ru</Link></Typography>
+            <Typography sx={{ mb: 1 }}>Адрес сайта: <Link href="https://aquarium.org.ru">https://aquarium.org.ru</Link></Typography>
             <Typography sx={{ mb: 2 }}>Контакт: <Link href="mailto:daniil@dybka.ru">daniil@dybka.ru</Link></Typography>
 
             <Typography level="title-lg" sx={{ mb: 1 }}>1. Общие положения</Typography>
             <Typography sx={{ mb: 1 }}>
-                Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сервиса «Аквариум Мини» (далее — Сервис), размещённого по адресу https://mini.aquarium.org.ru.
+                Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных данных пользователей сервиса «Аквариум» (далее — Сервис), размещённого по адресу https://aquarium.org.ru.
             </Typography>
             <Typography sx={{ mb: 2 }}>
                 Мы соблюдаем требования Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» и гарантируем сохранность предоставленных вами данных.
@@ -218,7 +218,7 @@ function ModalPrivacyPolicy() {
             <Typography level="title-lg" sx={{ mb: 1 }}>7. Удаление аккаунта и данных</Typography>
             <Typography sx={{ mb: 2 }}>
                 Вы можете удалить свой аккаунт и все связанные с ним персональные данные, перейдя по адресу:
-                <Link href="https://mini.aquarium.org.ru/settings/profile/delete">https://mini.aquarium.org.ru/settings/profile/delete</Link>
+                <Link href="https://aquarium.org.ru/settings/profile/delete">https://aquarium.org.ru/settings/profile/delete</Link>
             </Typography>
 
             <Typography level="title-lg" sx={{ mb: 1 }}>8. Изменения политики</Typography>
@@ -278,7 +278,7 @@ export default function ModalPrivacyContent({
                     border: 'none',
                     p: 3,
                     boxSizing: 'border-box',
-                    maxHeight: '80vh',
+                    maxHeight: '80dvh',
                     display: 'flex',
                     flexDirection: 'column',
                     '@media (max-width: 540px)': {

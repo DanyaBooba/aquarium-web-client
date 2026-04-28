@@ -36,7 +36,7 @@ export function AddComment({ globalPostId = 0, setNewComments = () => { } }) {
         if (!isActive) return;
 
         try {
-            const res = await apiFetch(`https://mini.aquarium.org.ru/api/post/comments`, {
+            const res = await apiFetch(`/api/post/comments`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

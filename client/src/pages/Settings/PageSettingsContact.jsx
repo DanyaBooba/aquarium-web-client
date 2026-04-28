@@ -91,7 +91,7 @@ export default function PageSettingsContact() {
             setLoading(true);
 
             try {
-                const response = await apiFetch('https://mini.aquarium.org.ru/api/profile/question', {
+                const response = await apiFetch('/api/profile/question', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

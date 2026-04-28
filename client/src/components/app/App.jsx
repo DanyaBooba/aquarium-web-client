@@ -2,8 +2,8 @@ import Container from '@mui/joy/Container'
 import { Helmet } from 'react-helmet-async'
 
 export function AppBasic({ title, desc, children }) {
-    const titlePage = title ? `${title} — Аквариум мини` : `Аквариум мини — мессенджер с записями`
-    const descPage = desc ? desc : 'Аквариум мини — мессенджер с записями'
+    const titlePage = title ? `${title} — Аквариум` : `Аквариум — мессенджер с записями`
+    const descPage = desc ? desc : 'Аквариум — мессенджер с записями'
 
     return (
         <>

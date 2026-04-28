@@ -59,7 +59,7 @@ function PageShowPost() {
     };
 
     const title = !loading && showContent(post?.content ?? '', 56);
-    const description = `${(!loading && showContent(post?.content ?? '', 145))} — читайте в Аквариум мини`
+    const description = `${(!loading && showContent(post?.content ?? '', 145))} — читайте в Аквариум`
 
     return (
         <AppProfile title={title} desc={description}>

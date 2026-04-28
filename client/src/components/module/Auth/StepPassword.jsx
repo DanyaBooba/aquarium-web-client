@@ -4,6 +4,7 @@ import { AuthTitle, DisplayError } from './Modules'
 import { variantsPassword } from './animate'
 import { Pencil } from '@phosphor-icons/react'
 import { useState } from 'react'
+import { apiFetch } from '../../../utils/apiClient'
 
 function StepPassword({ direction, email, handleEditEmail }) {
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ function StepPassword({ direction, email, handleEditEmail }) {
         setError(null);
 
         try {
-            const response = await fetch('https://mini.aquarium.org.ru/api/auth/password', {
+            const response = await apiFetch('/api/auth/password', {
                 method: 'POST',
                 credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
@@ -54,7 +55,7 @@ function StepPassword({ direction, email, handleEditEmail }) {
             variants={variantsPassword}
             style={{ position: 'absolute', width: '100%', height: '100%', justifyContent: 'center', top: 0, left: 0, paddingLeft: '4px', paddingRight: '4px' }}
         >
-            <AuthTitle title="Войти в аккаунт" />
+            <AuthTitle title="Введите пароль" />
             <Stack sx={{ gap: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1 }}>
                     <Typography level="title-md" sx={{ display: 'flex', alignItems: 'center' }}>

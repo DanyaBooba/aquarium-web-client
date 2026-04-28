@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { apiFetch } from '../../utils/apiClient';
 
 export function useUsers() {
     const [users, setUsers] = useState(null);
@@ -15,9 +16,9 @@ export function useUsers() {
 
                 const accessToken = localStorage.getItem('accessToken') ?? null;
 
-                const url = new URL('https://mini.aquarium.org.ru/api/users', window.location.origin);
+                const url = new URL('/api/users', process.env.REACT_APP_API_URL);
 
-                const response = await fetch(url.toString(), {
+                const response = await apiFetch(url.toString(), {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

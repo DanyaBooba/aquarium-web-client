@@ -1,0 +1,42 @@
+.plyr .plyr__controls .plyr__menu button,
+.plyr .plyr__controls .plyr__control {
+    border-radius: 50px !important;
+    background-color: transparent !important;
+    transition: .15s ease-out;
+}
+
+.plyr .plyr__controls .plyr__menu button:hover,
+.plyr .plyr__controls .plyr__control:hover {
+    background-color: #086bcb !important;
+}
+
+.plyr .plyr__control--overlaid {
+    background-color: #086bcb;
+    opacity: .9 !important;
+    transition: .15s ease-out;
+}
+
+.plyr .plyr__control--overlaid:hover {
+    background-color: #086bcb !important;
+    opacity: 1 !important;
+}
+
+.plyr .plyr__controls button[data-plyr="play"] svg.icon--not-pressed {
+    transform: translateX(1px);
+}
+
+.plyr--full-ui input[type=range] {
+    color: #086bcb !important;
+}
+
+.plyr__menu__container .plyr__control[role=menuitemradio][aria-checked=true]:before {
+    background: #086bcb !important;
+}
+
+.plyr__menu__container {
+    border-radius: 22px !important;
+}
+
+.plyr__tooltip {
+    border-radius: 50px !important;
+}

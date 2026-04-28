@@ -11,7 +11,11 @@ import { RoutesProfile } from './routes/RoutesProfile'
 import { RoutesProfileSettings } from './routes/RoutesProfileSettings'
 import { RoutesPost } from './routes/RoutesPost'
 import { RoutesMessages } from './routes/RoutesMessages';
+
 import { SocketProvider } from './components/app/SocketProvider';
+import { NotificationProvider } from './components/app/NotificationProvider';
+import { UnreadMessagesProvider } from './components/app/UnreadMessagesProvider';
+import { CallProvider } from './components/app/CallProvider';
 
 function AnimatedRoutes() {
     const location = useLocation()
@@ -23,11 +27,17 @@ function AnimatedRoutes() {
                 {RoutesAuth}
 
                 <Route element={<SocketProvider />}>
-                    <Route element={<MainLayout />}>
-                        {RoutesProfile}
-                        {RoutesProfileSettings}
-                        {RoutesPost}
-                        {RoutesMessages}
+                    <Route element={<CallProvider />}>
+                        <Route element={<NotificationProvider />}>
+                            <Route element={<UnreadMessagesProvider />}>
+                            <Route element={<MainLayout />}>
+                                {RoutesProfile}
+                                {RoutesProfileSettings}
+                                {RoutesPost}
+                                {RoutesMessages}
+                            </Route>
+                            </Route>
+                        </Route>
                     </Route>
                 </Route>
 

@@ -5,6 +5,7 @@ import { Menu, MenuButton, MenuItem } from "@mui/joy";
 import { CaretDown, Eye, Flag, ShareNetwork, SignOut, UserCheck, UserPlus } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import ModalConfirmDelete from "../../ModalConfirmDelete/ModalConfirmDelete";
+import { apiFetch } from '../../../../utils/apiClient';
 
 function ModalMoreFollow({ id = 0, disabled, follow = false, setFollow = () => { } }) {
     const [loading, setLoading] = useState(false);
@@ -19,7 +20,7 @@ function ModalMoreFollow({ id = 0, disabled, follow = false, setFollow = () => {
             if (!accessToken) navigate('/auth');
 
             const method = follow ? "DELETE" : "POST";
-            const res = await fetch(`https://mini.aquarium.org.ru/api/user/follow/${id}`, {
+            const res = await apiFetch(`/api/user/follow/${id}`, {
                 method,
                 credentials: 'include',
                 headers: {
@@ -78,7 +79,7 @@ export function ModalMore({ setShareOpen, side = false, id = 0, itsme = true }) 
                 const accessToken = localStorage.getItem('accessToken')
                 if (!accessToken) return;
 
-                const res = await fetch(`https://mini.aquarium.org.ru/api/user/follow/${id}`, {
+                const res = await apiFetch(`/api/user/follow/${id}`, {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
@@ -123,7 +124,7 @@ export function ModalMore({ setShareOpen, side = false, id = 0, itsme = true }) 
                             <ShareNetwork size={20} style={{ marginRight: 4 }} />
                             Поделиться
                         </MenuItem>
-                        <Divider sx={{ my: 0.5 }} />
+                        {/* <Divider sx={{ my: 0.5 }} />
                         <MenuItem
                             color="danger"
                             sx={{ py: 1 }}
@@ -131,7 +132,7 @@ export function ModalMore({ setShareOpen, side = false, id = 0, itsme = true }) 
                         >
                             <Flag size={20} style={{ marginRight: 4 }} />
                             Пожаловаться
-                        </MenuItem>
+                        </MenuItem> */}
                     </>
                 )}
 

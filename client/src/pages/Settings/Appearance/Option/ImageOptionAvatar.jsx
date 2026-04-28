@@ -24,7 +24,7 @@ export default function ImageOptionAvatar({ src = '', active = false, onClick = 
         >
             <Box
                 component="img"
-                src={src}
+                src={src.includes('http') ? src : `${process.env.REACT_APP_API_URL}${src}`}
                 alt="option"
                 sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />

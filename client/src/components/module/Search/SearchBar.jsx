@@ -38,7 +38,7 @@ function SearchBar({ value, onChange, sx }) {
                         px: 2,
                         py: 1.5,
                         borderRadius: '50px',
-                        boxShadow: 'none',
+                        // boxShadow: 'none',
                     }}
                 />
             </Box>

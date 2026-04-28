@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { apiFetch } from '../../utils/apiClient';
 
 export function useUser({ format = "id", id = 0, username = null }) {
     const [user, setUser] = useState(null);
@@ -21,7 +22,7 @@ export function useUser({ format = "id", id = 0, username = null }) {
 
                 const accessToken = localStorage.getItem('accessToken') ?? null;
 
-                const url = new URL('https://mini.aquarium.org.ru/api/users', window.location.origin);
+                const url = new URL('/api/users', process.env.REACT_APP_API_URL);
 
                 // Передаём нужный параметр в query
                 if (format === 'id') {
@@ -30,7 +31,7 @@ export function useUser({ format = "id", id = 0, username = null }) {
                     url.searchParams.append('username', username);
                 }
 
-                const response = await fetch(url.toString(), {
+                const response = await apiFetch(url.toString(), {
                     method: 'GET',
                     credentials: 'include',
                     headers: {

@@ -1,18 +1,35 @@
+import { useEffect } from 'react'
 import { Box, IconButton, Sheet, Typography } from '@mui/joy'
 import { EditorContent } from '@tiptap/react'
 import { X } from '@phosphor-icons/react'
 
-function PostEditor({ editor, attachments, charCount, serverFiles = [], handleRemoveAttachment, handleRemoveServerFile, MAX_CHARS }) {
+function PostEditor({
+    editor,
+    attachments,
+    charCount,
+    serverFiles = [],
+    handleRemoveAttachment,
+    handleRemoveServerFile,
+    MAX_CHARS
+}) {
     const isOverLimit = charCount > MAX_CHARS
+
+    // освобождаем objectURL чтобы не было утечки памяти
+    useEffect(() => {
+        const urls = attachments.map(file => URL.createObjectURL(file))
+        return () => {
+            urls.forEach(url => URL.revokeObjectURL(url))
+        }
+    }, [attachments])
 
     return (
         <Sheet
             variant="soft"
             sx={{
-                borderRadius: '12px',
+                borderRadius: '24px',
                 p: 2,
                 pb: 5,
-                '&:has(img)': { pb: 12 },
+                '&:has(img), &:has(video)': { pb: 12 },
                 cursor: 'text',
                 minHeight: 150,
                 position: 'relative',
@@ -21,7 +38,7 @@ function PostEditor({ editor, attachments, charCount, serverFiles = [], handleRe
         >
             <Box
                 sx={{
-                    borderRadius: '12px',
+                    borderRadius: '24px',
                     cursor: 'text',
                     minHeight: 150,
                     '& .ProseMirror': {
@@ -43,28 +60,58 @@ function PostEditor({ editor, attachments, charCount, serverFiles = [], handleRe
                 }}
             >
                 <EditorContent editor={editor} />
-                <Box sx={{ position: 'absolute', bottom: 2, left: 8, display: 'flex', gap: 1 }}>
-                    {serverFiles
-                        .filter(url => /\.(jpe?g|png|gif|webp|bmp)$/i.test(url))
-                        .map((url, index) => (
+
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: 2,
+                        left: 8,
+                        display: 'flex',
+                        gap: 1
+                    }}
+                >
+                    {/* ===== Файлы с сервера ===== */}
+                    {serverFiles.map((url, index) => {
+                        const isImage = /\.(jpe?g|png|gif|webp|bmp)$/i.test(url)
+                        const isVideo = /\.(mp4|webm|mov)$/i.test(url)
+
+                        return (
                             <Box key={`server-${index}`} sx={{ position: 'relative' }}>
-                                <a data-fancybox="gallery" href={url}>
-                                    <img
+                                {isImage && (
+                                    <a data-fancybox="gallery" href={url}>
+                                        <img
+                                            src={url}
+                                            alt="Файл"
+                                            style={{
+                                                width: 64,
+                                                height: 64,
+                                                objectFit: 'cover',
+                                                borderRadius: 8,
+                                            }}
+                                        />
+                                    </a>
+                                )}
+
+                                {isVideo && (
+                                    <video
                                         src={url}
-                                        alt="Добавленное изображение"
+                                        muted
+                                        controls
                                         style={{
                                             width: 64,
                                             height: 64,
                                             objectFit: 'cover',
-                                            borderRadius: 4,
+                                            borderRadius: 8,
+                                            background: '#000',
                                         }}
                                     />
-                                </a>
+                                )}
+
                                 <IconButton
                                     size="sm"
                                     variant="soft"
                                     color="neutral"
-                                    onClick={() => handleRemoveServerFile(url)}
+                                    onClick={() => handleRemoveServerFile?.(url)}
                                     sx={(theme) => ({
                                         position: 'absolute',
                                         top: -8,
@@ -88,18 +135,22 @@ function PostEditor({ editor, attachments, charCount, serverFiles = [], handleRe
                                     <X size={12} />
                                 </IconButton>
                             </Box>
-                        ))}
+                        )
+                    })}
 
-                    {attachments
-                        .filter(file => file.type.startsWith('image/'))
-                        .map((file, index) => {
-                            const url = URL.createObjectURL(file)
-                            return (
-                                <Box key={`local-${index}`} sx={{ position: 'relative' }}>
+                    {/* ===== Локальные файлы ===== */}
+                    {attachments.map((file, index) => {
+                        const url = URL.createObjectURL(file)
+                        const isImage = file.type.startsWith('image/')
+                        const isVideo = file.type.startsWith('video/')
+
+                        return (
+                            <Box key={`local-${index}`} sx={{ position: 'relative' }}>
+                                {isImage && (
                                     <a data-fancybox="gallery" href={url}>
                                         <img
                                             src={url}
-                                            alt="Добавленное изображение"
+                                            alt="Добавленный файл"
                                             style={{
                                                 width: 64,
                                                 height: 64,
@@ -108,36 +159,53 @@ function PostEditor({ editor, attachments, charCount, serverFiles = [], handleRe
                                             }}
                                         />
                                     </a>
-                                    <IconButton
-                                        size="sm"
-                                        variant="soft"
-                                        color="neutral"
-                                        onClick={() => handleRemoveAttachment(file)}
-                                        sx={(theme) => ({
-                                            position: 'absolute',
-                                            top: -8,
-                                            right: -8,
-                                            width: 24,
-                                            height: 24,
-                                            minWidth: 24,
-                                            minHeight: 24,
-                                            borderRadius: '50px',
-                                            p: 0.5,
-                                            borderColor: theme.vars.palette.neutral.softBg,
-                                            borderWidth: '3px',
-                                            borderStyle: 'solid',
-                                            backgroundColor: theme.vars.palette.neutral.softActiveBg,
-                                            stroke: theme.vars.palette.neutral.softColor,
-                                            '&:hover': {
-                                                backgroundColor: theme.vars.palette.neutral.softHoverBg,
-                                            },
-                                        })}
-                                    >
-                                        <X size={12} />
-                                    </IconButton>
-                                </Box>
-                            )
-                        })}
+                                )}
+
+                                {isVideo && (
+                                    <video
+                                        src={url}
+                                        muted
+                                        controls
+                                        style={{
+                                            width: 64,
+                                            height: 64,
+                                            objectFit: 'cover',
+                                            borderRadius: 8,
+                                            background: '#000',
+                                        }}
+                                    />
+                                )}
+
+                                <IconButton
+                                    size="sm"
+                                    variant="soft"
+                                    color="neutral"
+                                    onClick={() => handleRemoveAttachment(file)}
+                                    sx={(theme) => ({
+                                        position: 'absolute',
+                                        top: -8,
+                                        right: -8,
+                                        width: 24,
+                                        height: 24,
+                                        minWidth: 24,
+                                        minHeight: 24,
+                                        borderRadius: '50px',
+                                        p: 0.5,
+                                        borderColor: theme.vars.palette.neutral.softBg,
+                                        borderWidth: '3px',
+                                        borderStyle: 'solid',
+                                        backgroundColor: theme.vars.palette.neutral.softActiveBg,
+                                        stroke: theme.vars.palette.neutral.softColor,
+                                        '&:hover': {
+                                            backgroundColor: theme.vars.palette.neutral.softHoverBg,
+                                        },
+                                    })}
+                                >
+                                    <X size={12} />
+                                </IconButton>
+                            </Box>
+                        )
+                    })}
                 </Box>
             </Box>
 

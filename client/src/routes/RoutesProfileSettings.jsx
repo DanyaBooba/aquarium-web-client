@@ -4,13 +4,14 @@ import ProfileMiddleware from '../middlewares/ProfileMiddleware'
 import PageSettings from '../pages/Settings/PageSettings'
 import PageSettingsProfile from '../pages/Settings/PageSettingsProfile'
 import PageSettingsTheme from '../pages/Settings/PageSettingsTheme'
-import PageSettingsLanguage from '../pages/Settings/PageSettingsLanguage'
 import PageSettingsAppearance from '../pages/Settings/PageSettingsAppearance'
 import PageSettingsNotifications from '../pages/Settings/PageSettingsNotifications'
 import PageSettingsDevices from '../pages/Settings/PageSettingsDevices'
 import PageSettingsFAQ from '../pages/Settings/PageSettingsFAQ'
 import PageSettingsContact from '../pages/Settings/PageSettingsContact'
 import PageSettingsProfilePassword from '../pages/Settings/PageSettingsProfilePassword'
+import PageSettingsProfileDelete from '../pages/Settings/PageSettingsProfileDelete'
+import PageSettingsApps from '../pages/Settings/PageSettingsApps'
 
 export const RoutesProfileSettings = [
     <Route
@@ -41,6 +42,15 @@ export const RoutesProfileSettings = [
         key="route-u-settings-profile-password"
     />,
     <Route
+        path="/settings/profile/delete"
+        element={
+            <ProfileMiddleware>
+                <PageSettingsProfileDelete />
+            </ProfileMiddleware>
+        }
+        key="route-u-settings-profile-delete"
+    />,
+    <Route
         path="/settings/theme"
         element={
             <ProfileMiddleware>
@@ -48,15 +58,6 @@ export const RoutesProfileSettings = [
             </ProfileMiddleware>
         }
         key="route-u-settings-theme"
-    />,
-    <Route
-        path="/settings/language"
-        element={
-            <ProfileMiddleware>
-                <PageSettingsLanguage />
-            </ProfileMiddleware>
-        }
-        key="route-u-settings-language"
     />,
     <Route
         path="/settings/appearance"
@@ -102,5 +103,14 @@ export const RoutesProfileSettings = [
             </ProfileMiddleware>
         }
         key="route-u-settings-contact"
+    />,
+    <Route
+        path="/settings/apps"
+        element={
+            <ProfileMiddleware>
+                <PageSettingsApps />
+            </ProfileMiddleware>
+        }
+        key="route-u-settings-apps"
     />,
 ]
