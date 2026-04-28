@@ -78,17 +78,14 @@
 git clone https://github.com/DanyaBooba/aquarium-web-client.git
 cd aquarium-web-client
 
-# 2. Установить зависимости (root + client + server)
+# 2. Перейти в папку
+cd client
+
+# 3. Установить зависимости
 npm install
 
-# 3. Настроить окружение
-cp server/.env.example server/.env
-# Заполни переменные в server/.env (см. раздел ниже)
-
-# 4. Запустить приложение (frontend + backend)
+# 4. Запустить приложение (http://localhost:3000)
 npm start
-# Client -> http://localhost:3000
-# Server -> http://localhost:8000
 ```
 
 ---
@@ -110,7 +107,6 @@ aquarium-mini-source-code/
 │       ├── hooks/          # Кастомные React-хуки
 │       └── utils/          # Вспомогательные функции
 │
-└── package.json            # Root-скрипты (init, start, build)
 ```
 
 ---
@@ -196,9 +192,11 @@ aquarium-mini-source-code/
 
 > Все эндпоинты (кроме `/auth/*`) требуют заголовка `Authorization: Bearer <token>`.
 
+> Эндпоинты актуальны на 20 апреля 2026 г.
+
 ---
 
-## 🗺 Roadmap
+## 🗺 Дорожная карта
 
 - [x] JWT-аутентификация
 - [x] Личные сообщения в реальном времени (WebSocket)
@@ -206,14 +204,14 @@ aquarium-mini-source-code/
 - [x] Push-уведомления
 - [x] Мобильная адаптация
 - [x] Групповые чаты
+- [x] Статусы пользователей (онлайн / офлайн)
 - [ ] Реакции на сообщения
-- [ ] Статусы пользователей (онлайн / офлайн)
 - [ ] End-to-end шифрование
-- [ ] Публичные каналы
+- [ ] Настройки уведомлений
 
 ---
 
-## 📋 Changelog
+## 📋 Версии проекта
 
 ### v4.0.0 - групповые чаты (текущая)
 - групповые чаты
