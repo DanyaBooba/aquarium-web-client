@@ -8,15 +8,7 @@
 
 [English](README.en.md) | Русский
 
-[![Beta](https://img.shields.io/badge/статус-бета-orange?style=flat-square)](https://github.com/aquarium-mini-source-code)
-[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue?style=flat-square)](./LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://react.dev)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](./CONTRIBUTING.md)
-[![Stars](https://img.shields.io/github/stars/aquarium-mini-source-code?style=flat-square)](https://github.com/aquarium-mini-source-code/stargazers)
-[![Issues](https://img.shields.io/github/issues/aquarium-mini-source-code?style=flat-square)](https://github.com/aquarium-mini-source-code/issues)
-
-[🌐 Живое демо](https://aquarium.org.ru) · [🐛 Сообщить об ошибке](https://github.com/aquarium-mini-source-code/issues) · [💡 Предложить идею](https://github.com/aquarium-mini-source-code/issues)
+[🌐 Живое демо](https://aquarium.org.ru) 
 
 ---
 
@@ -101,46 +93,6 @@ npm start
 
 ---
 
-## ⚙️ Конфигурация
-
-### Переменные окружения (`.env`)
-
-Файл `.env` находится в директории `server/`.
-
-```env
-# Сервер
-PORT=8000
-APP_ENV="localhost"
-APP_DOMAIN="http://localhost:3000"
-
-DB_HOST="localhost"
-DB_USER="root"
-DB_PASSWORD=""
-DB_NAME=""
-
-ACCESS_SECRET=""
-REFRESH_SECRET=""
-ENCRYPTION_KEY=""
-
-LIFETIME_ACCESS_TOKEN_MIN=15
-LIFETIME_REFRESH_TOKEN_DAYS=7
-
-EMAIL_USER=no-reply@aquarium.org.ru
-EMAIL_PASS=
-EMAIL_HOST=mail.aquarium.org.ru
-EMAIL_PORT=465
-EMAIL_SECURE=true
-
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-
-YANDEX_CLIENT_ID=
-YANDEX_CLIENT_SECRET=
-
-```
-
----
-
 ## 📁 Структура проекта
 
 ```
@@ -158,16 +110,6 @@ aquarium-mini-source-code/
 │       ├── hooks/          # Кастомные React-хуки
 │       └── utils/          # Вспомогательные функции
 │
-├── server/                 # Node.js + Express API
-│   └── src/
-│       ├── controllers/    # Контроллеры маршрутов
-│       ├── services/       # Бизнес-логика
-│       ├── models/         # Sequelize-модели
-│       ├── middlewares/    # Серверные мидлвары
-│       ├── tests/          # Unit- и E2E-тесты
-│       ├── routes/         # API-маршруты
-│       └── config/         # Конфигурация сервера
-│
 └── package.json            # Root-скрипты (init, start, build)
 ```
 
@@ -176,7 +118,6 @@ aquarium-mini-source-code/
 ## 🌐 API
 
 **Базовый URL**: `https://api.aquarium.org.ru/api`
-**Базовый URL (локально)**: `http://localhost:8000/api`
 
 ### Аутентификация
 
@@ -264,8 +205,8 @@ aquarium-mini-source-code/
 - [x] Отправка файлов и медиа
 - [x] Push-уведомления
 - [x] Мобильная адаптация
+- [x] Групповые чаты
 - [ ] Реакции на сообщения
-- [ ] Групповые чаты
 - [ ] Статусы пользователей (онлайн / офлайн)
 - [ ] End-to-end шифрование
 - [ ] Публичные каналы
@@ -274,7 +215,13 @@ aquarium-mini-source-code/
 
 ## 📋 Changelog
 
-### v3.0.0 - звонки (active)
+### v4.0.0 - групповые чаты (текущая)
+- групповые чаты
+- изменение, удаление сообщений
+- ответ на сообщение и пересылка
+- отправка фото, видео и файлов в чатах
+
+### v3.0.0 - звонки
 - Звонки между пользователями
 
 ### v2.0.0 — сообщения и чаты
@@ -336,7 +283,6 @@ GPL-3.0 — свободное использование и модификац�
 **Даниил Дыбка**
 
 - [Аквариум](https://aquarium.org.ru/show/dybka)
-- [Телеграм](https://ddybka.t.me)
 - daniil@dybka.ru
 
 ---
