@@ -75,8 +75,8 @@
 
 ```bash
 # 1. Клонировать репозиторий
-git clone https://github.com/aquarium-mini-source-code.git
-cd aquarium-mini-source-code
+git clone https://github.com/DanyaBooba/aquarium-web-client.git
+cd aquarium-web-client
 
 # 2. Установить зависимости (root + client + server)
 npm install
